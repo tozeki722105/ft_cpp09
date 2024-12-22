@@ -2,94 +2,119 @@
 #include <iostream>
 #include <vector>
 
-void disp(const std::vector<int> &vec, const std::string &str)
+#include "Node.hpp"
+
+void test()
 {
-	std::cout << str << '\n';
-	for (size_t i = 0; i < vec.size(); i++) {
-		std::cout << std::setw(3) << vec[i] << ',';
+	std::cout << "test test test test test test test test test\n";
+}
+
+void disp(std::vector<Node>::iterator begin, std::vector<Node>::iterator end)
+{
+	while (begin != end) {
+		std::cout << *begin << '\n';
+		begin++;
 	}
-	std::cout << '\n';
+	std::cout << "\n";
 }
 
-bool isOrderComp(std::vector<int>::const_iterator i1, std::vector<int>::const_iterator i2)
+void mis(std::vector<Node> &vec)
 {
-	return *i1 <= *i2;
-}
-
-bool isOrderComp(std::vector<int>::const_iterator i1, std::vector<int>::const_reverse_iterator i2)
-{
-	return *i1 <= *i2;
-}
-
-void splitChain(
-		const std::vector<int> &src, std::vector<int> &mainChain, std::vector<int> &subChain)
-{
-	size_t count = 0;
-	for (std::vector<int>::const_iterator i = src.begin(); i != src.end(); i++) {
-		if (count++ % 2 == 0)
-			mainChain.push_back(*i);
-		else
-			subChain.push_back(*i);
-	}
-	// 奇数の時、mainのlastをsubに移動
-	if (count % 2 != 0) {
-		subChain.push_back(mainChain.back());
-		mainChain.pop_back();
-	}
-}
-
-void swapChainVal(std::vector<int> &mainChain, std::vector<int> &subChain)
-{
-	std::vector<int>::iterator mainIter = mainChain.begin();
-	std::vector<int>::iterator subIter = subChain.begin();
-	while (mainIter != mainChain.end() && subIter != subChain.end()) {
-		if (!isOrderComp(subIter, mainIter))
-			std::swap(*mainIter, *subIter);
-		mainIter++;
-		subIter++;
-	}
-}
-
-#include "MyPair.hpp"
-
-void makeNewMainChain(std::vector<Chain> &mainChain, std::vector<Chain> &res)
-{
-	size_t count = 0;
-	std::vector<Chain>::iterator i = mainChain.begin();
-	while (i != mainChain.end() || i + 1 != mainChain.end()) {
-		Chain *subChain = NULL;
-		if (mainChain.size() % 2 == 0 ||
-				i + 1 != mainChain.end())  // (サイズが奇数 && 次が最後の要素)じゃなければ
-			subChain = &(*(i + 1));
-		res.push_back(Chain(i->val(), subChain));
-		i += 2;
-	}
-}
-
-void mergeInsertionSort(std::vector<Chain> mainChain)
-{
-	if (mainChain.size() <= 2) {
-		if (mainChain.size() == 2 && !isOrderComp(mainChain.begin(), mainChain.rbegin()))
-			std::iter_swap(mainChain.begin(), mainChain.rbegin());
+	if (vec.size() <= 2) {
+		std::vector<Node>::iterator first = vec.begin();
+		std::vector<Node>::iterator last = first + 1;
+		if (last != vec.end() && first->val() > last->val())
+			std::iter_swap(first, last);
 		return;
 	}
-	std::vector<int> newMainChain;
-	std::vector<int> subChain;
-	splitChain(mainChain, newMainChain, subChain);
-	// ここで再起に渡すstd::vector<Chain> newChain
-	swapChainVal(newMainChain, subChain);
-	disp(newMainChain, "newMainChain");
-	disp(subChain, "subChain");
-	mergeInsertionSort(newMainChain);
-	// insertion(newMainChain, subChain);
-	// mainChain = newMainChain;
+
+	// 2要素でペアを作り、ペア間で昇順にする
+	bool isOdd = (vec.size() % 2 != 0);
+	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end() - isOdd; it += 2) {
+		if (it->val() > (it + 1)->val())
+			std::iter_swap(it, it + 1);
+	}
+
+	// indexを振る
+	size_t i = 0;
+	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end(); it++) {
+		it->_index = i++;
+	}
+
+	// 小さいペア・余りを後ろに移動
+	std::vector<Node>::iterator ret = std::stable_partition(vec.begin(), vec.end(), isOddIndex);
+
+	// 小さいペア・余りをsubChainにcopy
+	std::vector<Node> subchain;
+	subchain.reserve((vec.size() / 2) + isOdd);
+	std::copy(ret, vec.end(), std::back_inserter(subchain));
+
+	// 小さいペア・余りをmainChainから削除 (end()は勝手に更新)
+	vec.erase(ret, vec.end());
+
+	// 小さいペアへのリンクをmainChainの_subChainLinksにpush
+	// 余りは別のイテレータで管理
+	std::vector<Node>::iterator subchain_it = subchain.begin();
+	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end(); it++) {
+		it->_subChainLinks.push_back(subchain_it++);
+	}
+	std::vector<Node>::iterator remain = subchain.end();
+	if (isOdd)
+		remain = subchain_it;
+
+	mis(vec);
+
+	// insertion
+	vec.reserve(vec.size() + subchain.size());
+	std::vector<Node>::iterator it = vec.begin();
+	vec.insert(vec.begin(), *(it->_subChainLinks.back()));
+	it->_subChainLinks.pop_back();
+	it++;
+	for (; it != vec.end(); it++) {
+		std::vector<Node>::iterator subchain = it->_subChainLinks.back();
+		it->_subChainLinks.pop_back();
+		getGroupSize() for (size_t i = 0; i < count; i++)
+		{
+			/* code */
+		}
+	}
+
+	// endを更新
 }
+// if (base_case) {
+// 	tryswap();
+// 	return;
+// }
+// mainchainからsubchainにmove
+// mainchainに残すchainのsubchainにpush_back&[i + 1]
+// mis(vec);
+// insert(vec, subchain);
 
 int main()
 {
-	int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13, 7};
+	int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13};  //, 19
 	int size = sizeof(arr) / sizeof(arr[0]);
-	std::vector<int> vec(arr, arr + size);
-	// コンストラクタ時にsubChainがNULLのstd::vector<Chain>を作成
-	mergeInsertionSort(vec);
+
+	std::vector<Node> vec;
+	for (size_t i = 0; i < size; i++) {
+		vec.push_back(Node(arr[i]));
+	}
+	mis(vec);
 }
+
+// void binarySort(std::vector<Chain> vec, Chain &chain)
+// {
+// 	std::vector<Chain>::iterator it;
+// 	while (1) {
+// 		it = vec.begin() + (vec.size() / 2);
+// 		// it = 全体サイズの半分
+// 		if (it->val() <= chain.val()) {
+// 			if ((it + 1)->val() > chain.val())
+// 				break;
+// 			else
+// 				it = (-it) / 2;
+// 		} else if () {
+// 		}
+// 	}
+// 	vec.insert(it, chain);
+// }
