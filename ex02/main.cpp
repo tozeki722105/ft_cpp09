@@ -67,28 +67,23 @@ void mis(std::vector<Node> &vec)
 	// insertion
 	vec.reserve(vec.size() + subchain.size());
 	std::vector<Node>::iterator it = vec.begin();
-	vec.insert(vec.begin(), *(it->_subChainLinks.back()));
-	it->_subChainLinks.pop_back();
+	vec.insert(vec.begin(), *(it->popSubChainLink()));
 	it++;
-	for (; it != vec.end(); it++) {
-		std::vector<Node>::iterator subchain = it->_subChainLinks.back();
-		it->_subChainLinks.pop_back();
-		getGroupSize() for (size_t i = 0; i < count; i++)
-		{
-			/* code */
+	size_t n = 1;
+	while (it != vec.end()) {
+		size_t size = getGroupSize(n++);
+		std::vector<Node>::iterator last = it;
+		for (size_t i = 0; i < size && last != vec.end(); i++)
+			last++;
+		for (size_t i = last; i < count; i++) {
+			binaryInsert(i, *(it->popSubChainLink()));
 		}
+		it = last + 1;
 	}
-
-	// endを更新
+	// remainがあれば、remainもbinaryInsert
+	// subChain.clear();
+	// イテレータを引数にするなら、endを更新
 }
-// if (base_case) {
-// 	tryswap();
-// 	return;
-// }
-// mainchainからsubchainにmove
-// mainchainに残すchainのsubchainにpush_back&[i + 1]
-// mis(vec);
-// insert(vec, subchain);
 
 int main()
 {
