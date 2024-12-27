@@ -4,11 +4,6 @@
 
 #include "Node.hpp"
 
-void test()
-{
-	std::cout << "test test test test test test test test test\n";
-}
-
 namespace ft
 {
 std::vector<Node>::iterator safetyNext(
@@ -44,29 +39,6 @@ void binaryInsert(std::vector<Node> &vec, const std::vector<Node>::iterator &beg
 	vec.insert(insert_it, val);
 }
 
-std::vector<Node>::iterator mergeSubChain(
-		std::vector<Node> &vec, std::vector<Node>::iterator end, size_t insertCount)
-{
-	std::vector<Node>::iterator last = ft::next(end, -1);
-	size_t count = 0;
-	while (count < insertCount)  // last != vec.begin() &&
-	{
-		// std::cout << "last" << *last << "\n";
-		if (last->_mainChainFlag) {
-			ft::binaryInsert(vec, vec.begin(), last, *(last->popSubChainLink()));
-			count++;
-		} else {
-			last--;
-		}
-		// ft::disp(vec.begin(), vec.end());
-	}
-	return ft::next(last, count);
-}
-// if (last == vec.begin() && last->_mainChainFlag) {
-// 	ft::binaryInsert(vec, vec.begin(), last, *(last->popSubChainLink()));
-// 	count++;
-// }
-
 size_t getGroupSize(size_t groupIndex)
 {
 	if (groupIndex == 1 || groupIndex == 2)
@@ -86,10 +58,6 @@ size_t getGroupSize(size_t groupIndex)
 void mis(std::vector<Node> &mainChain)
 {
 	if (mainChain.size() <= 2) {
-		// std::vector<Node>::iterator first = mainChain.begin();
-		// std::vector<Node>::iterator last = ft::next(first, 1);
-		// if (last != mainChain.end() && *last < *first)
-		// 	std::iter_swap(first, last);
 		std::sort(mainChain.begin(), mainChain.end());
 		return;
 	}

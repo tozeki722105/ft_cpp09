@@ -52,6 +52,8 @@ bool Node::operator<(const Node &rhs) const
 
 std::vector<Node>::iterator Node::popSubChainLink()
 {
+	if (_subChainLinks.empty())
+		throw std::runtime_error("subChainLinks is empty");
 	std::vector<Node>::iterator res = _subChainLinks.back();
 	_subChainLinks.pop_back();
 	return res;
@@ -62,7 +64,10 @@ std::vector<Node>::iterator Node::popSubChainLink()
 // std::ostream &operator<<(std::ostream &os, const Node &rhs);
 std::ostream &operator<<(std::ostream &os, const Node &rhs)
 {
-	os << "v: " << std::setw(2) << rhs._val << "; ";
+	os << "v:" << std::setw(2) << rhs._val << " ";
+	if (!rhs._subChainLinks.empty())
+		os << "s:" << std::setw(2) << rhs._subChainLinks.back()->_val;
+	os << "\n";
 	return os;
 }
 
