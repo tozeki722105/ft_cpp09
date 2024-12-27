@@ -93,11 +93,11 @@ void mis(std::vector<Node> &mainChain)
 		return;
 	}
 
-	bool isOdd = (mainChain.size() % 2 != 0);
+	bool oddFlag = (mainChain.size() % 2 != 0);
 
 	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end(); it++)
 		it->_mainChainFlag = false;
-	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end() - isOdd;
+	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag;
 			std::advance(it, 2)) {
 		std::vector<Node>::iterator next = ft::next(it, 1);
 		((it->_val < next->_val) ? next : it)->_mainChainFlag = true;
@@ -107,7 +107,7 @@ void mis(std::vector<Node> &mainChain)
 			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
 
 	std::vector<Node> subchain;
-	subchain.reserve((mainChain.size() / 2) + isOdd);
+	subchain.reserve((mainChain.size() / 2) + oddFlag);
 	std::copy(bound, mainChain.end(), std::back_inserter(subchain));
 	mainChain.erase(bound, mainChain.end());
 
@@ -115,12 +115,12 @@ void mis(std::vector<Node> &mainChain)
 	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
 		it->_subChainLinks.push_back(subchain_it++);
 	}
-	std::vector<Node>::iterator remain = (isOdd) ? subchain_it : subchain.end();
+	std::vector<Node>::iterator remain = (oddFlag) ? subchain_it : subchain.end();
 
-	ft::disp(mainChain.begin(), mainChain.end());
+	// ft::disp(mainChain.begin(), mainChain.end());
 	mis(mainChain);
-	std::cout << "basecase: STOP\n";
-	ft::disp(mainChain.begin(), mainChain.end());
+	// std::cout << "basecase: STOP\n";
+	// ft::disp(mainChain.begin(), mainChain.end());
 
 	mainChain.reserve(mainChain.size() + subchain.size());
 
