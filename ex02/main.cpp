@@ -9,107 +9,165 @@ void test()
 	std::cout << "test test test test test test test test test\n";
 }
 
+namespace ft
+{
+std::vector<Node>::iterator safetyNext(
+		std::vector<Node>::iterator begin, std::vector<Node>::iterator end, size_t n)
+{
+	std::vector<Node>::iterator res = begin;
+	for (size_t i = 0; i < n && res != end; i++)
+		res++;
+	return res;
+}
+std::vector<Node>::iterator next(std::vector<Node>::iterator it, long long n)
+{
+	std::vector<Node>::iterator res = it;
+	std::advance(res, n);
+	return res;
+}
+
 void disp(std::vector<Node>::iterator begin, std::vector<Node>::iterator end)
 {
 	while (begin != end) {
-		std::cout << *begin << '\n';
+		std::cout << *begin;  //<< '\n'
 		begin++;
 	}
 	std::cout << "\n";
 }
 
-void mis(std::vector<Node> &vec)
+void binaryInsert(std::vector<Node> &vec, const std::vector<Node>::iterator &begin,
+		const std::vector<Node>::iterator &end, Node val)
 {
-	if (vec.size() <= 2) {
-		std::vector<Node>::iterator first = vec.begin();
-		std::vector<Node>::iterator last = first + 1;
-		if (last != vec.end() && first->val() > last->val())
+	std::vector<Node>::iterator insert_it = std::lower_bound(begin, end, val);
+	vec.insert(insert_it, val);
+}
+
+std::vector<Node>::iterator mergeSubChain(
+		std::vector<Node> &vec, std::vector<Node>::iterator end, size_t insertCount)
+{
+	std::vector<Node>::iterator last = ft::next(end, -1);
+	size_t count = 0;
+	while (count < insertCount)  // last != vec.begin() &&
+	{
+		// std::cout << "last" << *last << "\n";
+		if (last->_mainChainFlag) {
+			ft::binaryInsert(vec, vec.begin(), last, *(last->popSubChainLink()));
+			count++;
+		} else {
+			last--;
+		}
+		// ft::disp(vec.begin(), vec.end());
+	}
+	return ft::next(last, count);
+}
+// if (last == vec.begin() && last->_mainChainFlag) {
+// 	ft::binaryInsert(vec, vec.begin(), last, *(last->popSubChainLink()));
+// 	count++;
+// }
+
+size_t getGroupSize(size_t groupIndex)
+{
+	if (groupIndex == 1 || groupIndex == 2)
+		return 2;
+
+	size_t a = 2;
+	size_t b = 2;
+	for (size_t i = 3; i <= groupIndex; i++) {
+		size_t tmp = b;
+		b = a * 2 + b;
+		a = tmp;
+	}
+	return b;
+}
+}  // namespace ft
+
+void mis(std::vector<Node> &mainChain)
+{
+	if (mainChain.size() <= 2) {
+		std::vector<Node>::iterator first = mainChain.begin();
+		std::vector<Node>::iterator last = ft::next(first, 1);
+		if (last != first && first->_val > last->_val)
 			std::iter_swap(first, last);
 		return;
 	}
 
-	// 2要素でペアを作り、ペア間で昇順にする
-	bool isOdd = (vec.size() % 2 != 0);
-	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end() - isOdd; it += 2) {
-		if (it->val() > (it + 1)->val())
-			std::iter_swap(it, it + 1);
-	}
-
-	// indexを振る
-	size_t i = 0;
-	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end(); it++) {
-		it->_index = i++;
-	}
-
-	// 小さいペア・余りを後ろに移動
-	std::vector<Node>::iterator ret = std::stable_partition(vec.begin(), vec.end(), isOddIndex);
-
-	// 小さいペア・余りをsubChainにcopy
+	bool isOdd;
 	std::vector<Node> subchain;
-	subchain.reserve((vec.size() / 2) + isOdd);
-	std::copy(ret, vec.end(), std::back_inserter(subchain));
+	std::vector<Node>::iterator remain;
 
-	// 小さいペア・余りをmainChainから削除 (end()は勝手に更新)
-	vec.erase(ret, vec.end());
+	isOdd = (mainChain.size() % 2 != 0);
 
-	// 小さいペアへのリンクをmainChainの_subChainLinksにpush
-	// 余りは別のイテレータで管理
+	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end() - isOdd;
+			std::advance(it, 2)) {
+		std::vector<Node>::iterator next = ft::next(it, 1);
+		if (it->_val > next->_val)
+			it->_mainChainFlag = true;
+		else
+			next->_mainChainFlag = true;
+	}
+
+	std::vector<Node>::iterator bound_it =
+			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
+
+	subchain.reserve((mainChain.size() / 2) + isOdd);
+	std::copy(bound_it, mainChain.end(), std::back_inserter(subchain));
+	mainChain.erase(bound_it, mainChain.end());
+
 	std::vector<Node>::iterator subchain_it = subchain.begin();
-	for (std::vector<Node>::iterator it = vec.begin(); it != vec.end(); it++) {
+	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
 		it->_subChainLinks.push_back(subchain_it++);
 	}
-	std::vector<Node>::iterator remain = subchain.end();
-	if (isOdd)
-		remain = subchain_it;
+	remain = (isOdd) ? subchain_it : subchain.end();
 
-	mis(vec);
+	// mis(mainChain);
+	std::sort(mainChain.begin(), mainChain.end());
 
-	// insertion
-	vec.reserve(vec.size() + subchain.size());
-	std::vector<Node>::iterator it = vec.begin();
-	vec.insert(vec.begin(), *(it->popSubChainLink()));
-	it++;
-	size_t n = 1;
-	while (it != vec.end()) {
-		size_t size = getGroupSize(n++);
-		std::vector<Node>::iterator last = it;
-		for (size_t i = 0; i < size && last != vec.end(); i++)
-			last++;
-		for (size_t i = last; i < count; i++) {
-			binaryInsert(i, *(it->popSubChainLink()));
+	mainChain.reserve(mainChain.size() + subchain.size());
+	std::vector<Node>::iterator it = mainChain.begin();
+
+	mainChain.insert(it, *(it->popSubChainLink()));
+	std::advance(it, 2);
+
+	size_t group = 1;
+	size_t groupSize;
+	std::vector<Node>::iterator end_it;
+	while (it != mainChain.end()) {
+		// 改良
+		groupSize = ft::getGroupSize(group++);
+		end_it = it;
+		size_t iii = 0;
+		for (; iii < groupSize && end_it != mainChain.end(); iii++) {
+			end_it++;
 		}
-		it = last + 1;
+		it = ft::mergeSubChain(mainChain, end_it, iii);
+		it++;
+		// 改良 end
 	}
-	// remainがあれば、remainもbinaryInsert
-	// subChain.clear();
-	// イテレータを引数にするなら、endを更新
+	if (remain != subchain.end())
+		ft::binaryInsert(mainChain, mainChain.begin(), mainChain.end(), *(remain));
+
+	subchain.clear();
+
+	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
+		it->_mainChainFlag = true;
+	}
 }
 
 int main()
 {
-	int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13};  //, 19
+	// 奇数
+	int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 7, 12, 5, 4, 20, 13};
+	// 偶数
+	// int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 7, 12, 5, 4, 20, 13, 19};
+	// 同値入り
+	// int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13, 19};
 	int size = sizeof(arr) / sizeof(arr[0]);
 
 	std::vector<Node> vec;
 	for (size_t i = 0; i < size; i++) {
 		vec.push_back(Node(arr[i]));
 	}
+	ft::disp(vec.begin(), vec.end());
 	mis(vec);
+	ft::disp(vec.begin(), vec.end());
 }
-
-// void binarySort(std::vector<Chain> vec, Chain &chain)
-// {
-// 	std::vector<Chain>::iterator it;
-// 	while (1) {
-// 		it = vec.begin() + (vec.size() / 2);
-// 		// it = 全体サイズの半分
-// 		if (it->val() <= chain.val()) {
-// 			if ((it + 1)->val() > chain.val())
-// 				break;
-// 			else
-// 				it = (-it) / 2;
-// 		} else if () {
-// 		}
-// 	}
-// 	vec.insert(it, chain);
-// }
