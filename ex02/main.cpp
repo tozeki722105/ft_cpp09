@@ -53,12 +53,19 @@ void binaryInsert(std::vector<Node> &vec, const std::vector<Node>::iterator &beg
 
 size_t groupSize(size_t groupIndex)
 {
-	if (groupIndex == 1 || groupIndex == 2)
-		return 2;
+	static const size_t lookupTable[] = {0, 2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366, 2730,
+			5462, 10922, 21846, 43690, 87382, 174762, 349526, 699050, 1398102, 2796202, 5592406,
+			11184810, 22369622, 44739242, 89478486, 178956970, 357913942};
+	static size_t size = sizeof(lookupTable) / sizeof(*lookupTable);
 
-	size_t a = 2;
-	size_t b = 2;
-	for (size_t i = 3; i <= groupIndex; i++) {
+	if (groupIndex == 0)
+		throw std::invalid_argument("groupIndex is 0");
+	if (groupIndex < size)
+		return lookupTable[groupIndex];
+
+	size_t a = lookupTable[size - 2];
+	size_t b = lookupTable[size - 1];
+	for (size_t i = size; i <= groupIndex; i++) {
 		size_t tmp = b;
 		b = a * 2 + b;
 		a = tmp;
@@ -84,10 +91,7 @@ void mis(std::vector<Node> &mainChain)
 	for (std::vector<Node>::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag;
 			std::advance(it, 2)) {
 		std::vector<Node>::iterator next = ft::next(it);
-		if (it->_val < next->_val)
-			next->_mainChainFlag = true;
-		else
-			it->_mainChainFlag = true;
+		((it->_val < next->_val) ? next : it)->_mainChainFlag = true;
 	}
 
 	std::vector<Node>::iterator bound =
@@ -104,10 +108,7 @@ void mis(std::vector<Node> &mainChain)
 	}
 	std::vector<Node>::iterator remain = (oddFlag) ? subchain_it : subchain.end();
 
-	// disp(mainChain.begin(), mainChain.end());
 	mis(mainChain);
-	// std::cout << "basecase: STOP\n";
-	// disp(mainChain.begin(), mainChain.end());
 
 	mainChain.reserve(mainChain.size() + subchain.size());
 
@@ -155,9 +156,9 @@ int main()
 		vec.push_back(Node(arr[i]));
 	}
 	try {
-		// disp(vec.begin(), vec.end());
+		disp(vec.begin(), vec.end());
 		mis(vec);
-		// disp(vec.begin(), vec.end());
+		disp(vec.begin(), vec.end());
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << '\n';
 	}

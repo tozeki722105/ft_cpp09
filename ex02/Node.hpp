@@ -67,7 +67,7 @@ std::ostream &operator<<(std::ostream &os, const Node &rhs)
 	os << "v:" << std::setw(2) << rhs._val << " ";
 	if (!rhs._subChainLinks.empty())
 		os << "s:" << std::setw(2) << rhs._subChainLinks.back()->_val;
-	os << "\n";
+	os << " ";
 	return os;
 }
 
