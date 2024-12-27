@@ -86,11 +86,10 @@ size_t getGroupSize(size_t groupIndex)
 void mis(std::vector<Node> &mainChain)
 {
 	if (mainChain.size() <= 2) {
-		// std::vector<Node>::iterator first = mainChain.begin();
-		// std::vector<Node>::iterator last = ft::next(first, 1);
-		// if (last != mainChain.end() && *last < *first)
-		// 	std::iter_swap(first, last);
-		std::sort(mainChain.begin(), mainChain.end());
+		std::vector<Node>::iterator first = mainChain.begin();
+		std::vector<Node>::iterator last = ft::next(first, 1);
+		if (last != mainChain.end() && *last < *first)
+			std::iter_swap(first, last);
 		return;
 	}
 
@@ -118,10 +117,10 @@ void mis(std::vector<Node> &mainChain)
 	}
 	std::vector<Node>::iterator remain = (isOdd) ? subchain_it : subchain.end();
 
-	// ft::disp(mainChain.begin(), mainChain.end());
+	ft::disp(mainChain.begin(), mainChain.end());
 	mis(mainChain);
-	// std::cout << "basecase: STOP\n";
-	// ft::disp(mainChain.begin(), mainChain.end());
+	std::cout << "basecase: STOP\n";
+	ft::disp(mainChain.begin(), mainChain.end());
 
 	mainChain.reserve(mainChain.size() + subchain.size());
 
