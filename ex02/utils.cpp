@@ -1,8 +1,11 @@
 #include "utils.hpp"
 
-#include <stdexcept>
+void utl::test()
+{
+	std::cout << "test test test test test test test test test\n";
+}
 
-size_t groupSize(size_t groupIndex)
+size_t utl::groupSize(size_t groupIndex)
 {
 	static const size_t lookupTable[] = {0, 2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366, 2730,
 			5462, 10922, 21846, 43690, 87382, 174762, 349526, 699050, 1398102, 2796202, 5592406,

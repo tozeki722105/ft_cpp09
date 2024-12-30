@@ -4,75 +4,65 @@
 #include <list>
 #include <vector>
 
+template <typename T>
 class Node
 {
 public:
-	unsigned int _val;
-	std::vector<Node *> _subChainLinks;
+	T _val;
 	bool _mainChainFlag;
+	// bool _subChainFlag;
 
 	Node();
-	Node(int val);
-	~Node();
-	Node(const Node &other);
-	const Node &operator=(const Node &other);
+	Node(T val);
+	virtual ~Node();
+	Node(const Node<T> &other);
+	const Node<T> &operator=(const Node<T> &other);
 
-	bool operator<(const Node &rhs) const;
-
-	Node *popSubChainLink();
+	bool operator<(const Node<T> &rhs) const;
 };
 
-Node::Node() : _val(0), _mainChainFlag(false) {}
+template <typename T>
+Node<T>::Node() : _val(0), _mainChainFlag(false)
+{
+}
 
-Node::Node(int val) : _val(val), _mainChainFlag(false) {}
+template <typename T>
+Node<T>::Node(T val) : _val(val), _mainChainFlag(false)
+{
+}
 
-Node::~Node() {};
+template <typename T>
+Node<T>::~Node(){};
 
-Node::Node(const Node &other)
+template <typename T>
+Node<T>::Node(const Node &other)
 {
 	*this = other;
 }
 
-const Node &Node::operator=(const Node &other)
+template <typename T>
+const Node<T> &Node<T>::operator=(const Node<T> &other)
 {
 	if (this == &other)
 		return *this;
 	_val = other._val;
 	_mainChainFlag = other._mainChainFlag;
-	_subChainLinks = other._subChainLinks;
 	return *this;
 }
 
-bool Node::operator<(const Node &rhs) const
+template <typename T>
+bool Node<T>::operator<(const Node<T> &rhs) const
 {
 	// static size_t count = 1;
 	// std::cout << "comp: " << count++ << "\n";
 	return _val < rhs._val;
 }
 
-Node *Node::popSubChainLink()
-{
-	if (_subChainLinks.empty())
-		throw std::runtime_error("subChainLinks is empty");
-	Node *res = _subChainLinks.back();
-	_subChainLinks.pop_back();
-	return res;
-}
-
-#include <iomanip>
-
-std::ostream &operator<<(std::ostream &os, const Node &rhs)
-{
-	os << "v:" << std::setw(2) << rhs._val << " ";
-	if (!rhs._subChainLinks.empty())
-		os << "s:" << std::setw(2) << rhs._subChainLinks.back()->_val;
-	os << " ";
-	return os;
-}
-
-bool isMainChain(Node &node)
+template <typename T>
+bool isMainChain(Node<T> &node)
 {
 	return node._mainChainFlag;
+	// return !node._subChainFlag;
 }
 
 #endif
