@@ -236,26 +236,43 @@ void PMergeMe<T>::vec_mis(VContainer &mainChain)
 		it->_mainChainFlag = true;
 }
 
+#include <ctime>
+
+void getTime(timeval &val)
+{
+	gettimeofday(&val, NULL);
+	// return ((time.tv_sec * 1000000) + (time.tv_usec));
+}
+
 template <typename T>
 void PMergeMe<T>::exec()
 {
-	// struct timeval beforeVecTime;
-	// gettimeofday(&beforeVecTime, NULL);
-	for (size_t i = 0; i < _arg.size(); i++) {
-		_vec.push_back(VNode<T>(_arg[i]));
-	}
-	// utl::disp(_vec.begin(), _vec.end());
-	vec_mis(_vec);
-	// utl::disp(_vec.begin(), _vec.end());
-	// struct timeval afterVecTime;
-	// gettimeofday(&afterVecTime, NULL);
+	timeval start, end;
 
-	for (size_t i = 0; i < _arg.size(); i++) {
-		_list.push_back(VNode<T>(_arg[i]));
+	{
+		getTime(start);
+		for (size_t i = 0; i < _arg.size(); i++) {
+			_vec.push_back(VNode<T>(_arg[i]));
+		}
+		vec_mis(_vec);
+		getTime(end);
 	}
-	utl::disp(_list.begin(), _list.end());
-	lst_mis(_list);
-	utl::disp(_list.begin(), _list.end());
+	unsigned long long diff1 =
+			(end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
+
+	{
+		getTime(start);
+		for (size_t i = 0; i < _arg.size(); i++) {
+			_list.push_back(VNode<T>(_arg[i]));
+		}
+		lst_mis(_list);
+		getTime(end);
+	}
+	unsigned long long diff2 =
+			(end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
+
+	std::cout << "vec diff time: " << diff1 << " sec" << std::endl;
+	std::cout << "lst diff time: " << diff2 << " sec" << std::endl;
 }
 
 #endif

@@ -11,7 +11,7 @@ void disp(const Iterator &begin, const Iterator &end)
 {
 	Iterator it = begin;
 	while (it != end) {
-		std::cout << *it << '\n';  //<< '\n'
+		std::cout << *it;  //<< '\n'
 		it++;
 	}
 	std::cout << "\n";
