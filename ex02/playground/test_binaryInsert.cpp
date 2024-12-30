@@ -1,29 +1,67 @@
-#include <iomanip>
+#include <algorithm>  // std::equal, std::sort
+#include <cassert>    // assert
+#include <cstdlib>    // std::rand, std::srand
+#include <ctime>      // std::time
 #include <iostream>
-#include <vector>
+#include <list>
+#include <vector>  // std::vector
 
-#include "Node.hpp"
+#include "utils.hpp"
 
-// bool comp(Node &a, Node &b)
-// {
-// 	return a.val() < b.val();
-// }
-
-void binaryInsert(std::vector<Node> &vec, Node &node)
+void binaryInsert(std::list<int> &con, const std::list<int>::iterator &begin,
+		const std::list<int>::iterator &end, int val)
 {
-	std::vector<Node>::iterator it = std::lower_bound(vec.begin(), vec.end(), node);
-	vec.insert(it, node);
+	std::list<int>::iterator begin_cp = begin;
+
+	for (size_t len = std::distance(begin, end); len != 0;) {
+		size_t half = len / 2;
+		std::list<int>::iterator mid = begin_cp;
+		std::advance(mid, half);
+		if (*mid < val) {
+			len -= half + 1;
+			begin_cp = ++mid;
+		} else {
+			len = half;
+		}
+	}
+	con.insert(begin_cp, val);
+}
+
+void makeList(std::list<int> &list, int array[], int size)
+{
+	for (size_t i = 0; i < size; i++) {
+		list.push_back(array[i]);
+	}
+}
+
+void test(int array[], int size, int val)
+{
+	std::list<int> list;
+	makeList(list, array, size);
+	binaryInsert(list, list.begin(), list.end(), val);
+	utl::disp(list.begin(), list.end());
 }
 
 int main()
 {
-	int arr[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13, 19};
-	int size = sizeof(arr) / sizeof(arr[0]);
-
-	std::vector<Node> vec;
-	size_t i = 0;
-	for (; i + 1 < size; i++) {
-		vec.push_back(Node(arr[i]));
+	{
+		int array[] = {1, 3, 5, 7, 9};
+		int size = sizeof(array) / sizeof(array[0]);
+		test(array, size, 4);
 	}
-	Node node(arr[i]);
+	{
+		int array[] = {1, 3, 5, 7, 9};
+		int size = sizeof(array) / sizeof(array[0]);
+		test(array, size, 11);
+	}
+	{
+		int array[] = {1, 3, 5, 7, 9};
+		int size = sizeof(array) / sizeof(array[0]);
+		test(array, size, 0);
+	}
+	{
+		int array[] = {1, 3, 5, 7, 9};
+		int size = sizeof(array) / sizeof(array[0]);
+		test(array, size, 5);
+	}
 }

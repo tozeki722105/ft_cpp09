@@ -7,8 +7,8 @@
 class Node
 {
 public:
-	int _val;
-	std::list<std::vector<Node>::iterator> _subChainLinks;
+	unsigned int _val;
+	std::vector<Node *> _subChainLinks;
 	bool _mainChainFlag;
 
 	Node();
@@ -19,7 +19,7 @@ public:
 
 	bool operator<(const Node &rhs) const;
 
-	std::vector<Node>::iterator popSubChainLink();
+	Node *popSubChainLink();
 };
 
 Node::Node() : _val(0), _mainChainFlag(false) {}
@@ -50,18 +50,17 @@ bool Node::operator<(const Node &rhs) const
 	return _val < rhs._val;
 }
 
-std::vector<Node>::iterator Node::popSubChainLink()
+Node *Node::popSubChainLink()
 {
 	if (_subChainLinks.empty())
 		throw std::runtime_error("subChainLinks is empty");
-	std::vector<Node>::iterator res = _subChainLinks.back();
+	Node *res = _subChainLinks.back();
 	_subChainLinks.pop_back();
 	return res;
 }
 
 #include <iomanip>
 
-// std::ostream &operator<<(std::ostream &os, const Node &rhs);
 std::ostream &operator<<(std::ostream &os, const Node &rhs)
 {
 	os << "v:" << std::setw(2) << rhs._val << " ";
