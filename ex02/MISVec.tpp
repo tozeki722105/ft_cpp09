@@ -1,7 +1,7 @@
 #include "PMergeMe.hpp"
 
 template <typename T>
-void PMergeMe<T>::vec_binaryInsert(Vector &vec, const typename Vector::iterator &begin,
+void PMergeMe<T>::binaryInsert(Vector &vec, const typename Vector::iterator &begin,
 		const typename Vector::iterator &end, Node<T> val)
 {
 	typename Vector::iterator insert_it = std::lower_bound(begin, end, val);
@@ -9,7 +9,7 @@ void PMergeMe<T>::vec_binaryInsert(Vector &vec, const typename Vector::iterator 
 }
 
 template <typename T>
-void PMergeMe<T>::vec_mis(Vector &mainChain)
+void PMergeMe<T>::mis(Vector &mainChain)
 {
 	if (mainChain.size() <= 2) {
 		typename Vector::iterator first = mainChain.begin();
@@ -44,7 +44,7 @@ void PMergeMe<T>::vec_mis(Vector &mainChain)
 	}
 	Node<T> *remain = (oddFlag) ? &(*subchain_it) : NULL;
 
-	vec_mis(mainChain);
+	mis(mainChain);
 
 	mainChain.reserve(mainChain.size() + subchain.size());
 
@@ -61,7 +61,7 @@ void PMergeMe<T>::vec_mis(Vector &mainChain)
 		size_t insertCount = std::distance(it, groupEnd);
 		for (size_t count = 0; count < insertCount;) {
 			if (last->_mainChainFlag) {
-				vec_binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
+				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
 				count++;
 			} else
 				last--;
@@ -69,7 +69,7 @@ void PMergeMe<T>::vec_mis(Vector &mainChain)
 		it = groupEnd + insertCount;
 	}
 	if (remain)
-		vec_binaryInsert(mainChain, mainChain.begin(), mainChain.end(), *(remain));
+		binaryInsert(mainChain, mainChain.begin(), mainChain.end(), *(remain));
 
 	subchain.clear();
 

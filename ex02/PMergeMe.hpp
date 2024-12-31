@@ -2,9 +2,13 @@
 #define PMERGEME_HPP
 
 #include "Node.hpp"
+#include <iostream>
+#include <sstream>
+#include <algorithm>
+#include "utils.hpp"
+
 #include <ctime>
 #include <sys/time.h>
-#include <sstream>
 
 template <typename T>
 class PMergeMe
@@ -16,6 +20,8 @@ class PMergeMe
 public:
 	PMergeMe(int argc, char **argv);
 	~PMergeMe();
+	PMergeMe(const PMergeMe &other);
+	const PMergeMe<T> &operator=(const PMergeMe<T> &other);
 
 	void exec();
 
@@ -25,13 +31,13 @@ private:
 	Vector _vec;
 	List _list;
 
-	void vec_binaryInsert(Vector &vec, const typename Vector::iterator &begin,
+	void binaryInsert(Vector &vec, const typename Vector::iterator &begin,
 			const typename Vector::iterator &end, Node<T> val);
-	void vec_mis(Vector &mainChain);
+	void mis(Vector &mainChain);
 
-	void lst_binaryInsert(List &vec, const typename List::iterator &begin,
+	void binaryInsert(List &vec, const typename List::iterator &begin,
 			const typename List::iterator &end, Node<T> val);
-	void lst_mis(List &mainChain);
+	void mis(List &mainChain);
 
 	void test();
 	size_t groupSize(size_t groupIndex);
@@ -50,6 +56,7 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
 		throw std::runtime_error("Invalid argment count");
+
 	_elemCount = argc - 1;
 	_arg.reserve(_elemCount);
 
@@ -72,11 +79,23 @@ PMergeMe<T>::~PMergeMe()
 {
 }
 
-#include <algorithm>
-#include "utils.hpp"
-#include "MISLst.tpp"
-#include "MISVec.tpp"
-#include "MISUtils.tpp"
+template <typename T>
+PMergeMe<T>::PMergeMe(const PMergeMe &other)
+{
+	*this = other;
+}
+
+template <typename T>
+const PMergeMe<T> &PMergeMe<T>::operator=(const PMergeMe<T> &other)
+{
+	if (this == &other)
+		return *this;
+	_elemCount = other._elemCount;
+	_arg = other._arg;
+	_vec = other._vec;
+	_list = other._list;
+	return *this;
+}
 
 template <typename T>
 void PMergeMe<T>::exec()
@@ -90,7 +109,7 @@ void PMergeMe<T>::exec()
 		for (size_t i = 0; i < _arg.size(); i++) {
 			_list.push_back(Node<T>(_arg[i]));
 		}
-		lst_mis(_list);
+		mis(_list);
 		getTime(end);
 	}
 	time_t lstDiff = diffTime(start, end);
@@ -99,7 +118,7 @@ void PMergeMe<T>::exec()
 		for (size_t i = 0; i < _arg.size(); i++) {
 			_vec.push_back(Node<T>(_arg[i]));
 		}
-		vec_mis(_vec);
+		mis(_vec);
 		getTime(end);
 	}
 	time_t vecDiff = diffTime(start, end);
@@ -112,5 +131,9 @@ void PMergeMe<T>::exec()
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::vector : " << vecDiff << " us\n";
 }
+
+#include "MISLst.tpp"
+#include "MISVec.tpp"
+#include "MISUtils.tpp"
 
 #endif
