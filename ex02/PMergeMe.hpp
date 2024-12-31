@@ -48,6 +48,8 @@ private:
 template <typename T>
 PMergeMe<T>::PMergeMe(int argc, char **argv)
 {
+	if (argc <= 1)
+		throw std::runtime_error("Invalid argment count");
 	_elemCount = argc - 1;
 	_arg.reserve(_elemCount);
 
@@ -56,7 +58,6 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 	for (size_t i = 1; i < argc; i++) {
 		if (argv[i][0] == '\0')
 			throw std::runtime_error("Invalid argment");
-
 		ss << argv[i];
 		if (!(ss >> val) || !ss.eof())
 			throw std::runtime_error("Invalid argment");
