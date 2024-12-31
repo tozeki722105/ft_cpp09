@@ -40,7 +40,7 @@ void PMergeMe<T>::mis(List &mainChain)
 	typename List::iterator swapEnd = (oddFlag) ? utl::prev(mainChain.end()) : mainChain.end();
 	for (typename List::iterator it = mainChain.begin(); it != swapEnd; std::advance(it, 2)) {
 		typename List::iterator next = utl::next(it);
-		((it->_val < next->_val) ? next : it)->_mainChainFlag = true;
+		((*it < *next) ? next : it)->_mainChainFlag = true;
 	}
 
 	typename List::iterator bound =

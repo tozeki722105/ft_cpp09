@@ -26,7 +26,7 @@ void PMergeMe<T>::mis(Vector &mainChain)
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag;
 			it += 2) {
 		typename Vector::iterator next = it + 1;
-		((it->_val < next->_val) ? next : it)->_mainChainFlag = true;
+		((*it < *next) ? next : it)->_mainChainFlag = true;
 	}
 
 	typename Vector::iterator bound =

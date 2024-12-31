@@ -100,19 +100,12 @@ const PMergeMe<T> &PMergeMe<T>::operator=(const PMergeMe<T> &other)
 template <typename T>
 void PMergeMe<T>::exec()
 {
+	Node<unsigned int> node(0);  // cmpCountのために実体化
+
 	std::cout << "Before\t:   ";
 	utl::disp(_arg.begin(), _arg.end());
 
 	timeval start, end;
-	{
-		getTime(start);
-		for (size_t i = 0; i < _arg.size(); i++) {
-			_list.push_back(Node<T>(_arg[i]));
-		}
-		mis(_list);
-		getTime(end);
-	}
-	time_t lstDiff = diffTime(start, end);
 	{
 		getTime(start);
 		for (size_t i = 0; i < _arg.size(); i++) {
@@ -121,7 +114,20 @@ void PMergeMe<T>::exec()
 		mis(_vec);
 		getTime(end);
 	}
+	size_t vecCmpCount = node._cmpCount;
+	node._cmpCount = 0;
 	time_t vecDiff = diffTime(start, end);
+	{
+		getTime(start);
+		for (size_t i = 0; i < _arg.size(); i++) {
+			_list.push_back(Node<T>(_arg[i]));
+		}
+		mis(_list);
+		getTime(end);
+	}
+	size_t lstCmpCount = node._cmpCount;
+	node._cmpCount = 0;
+	time_t lstDiff = diffTime(start, end);
 
 	std::cout << "After\t:   ";
 	utl::disp(_vec.begin(), _vec.end());
@@ -130,6 +136,7 @@ void PMergeMe<T>::exec()
 			  << " elements with std::list   : " << lstDiff << " us\n";
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::vector : " << vecDiff << " us\n";
+	std::cout << "CmpCount : vector = " << vecCmpCount << " list = " << lstCmpCount << "\n";
 }
 
 #include "MISLst.tpp"

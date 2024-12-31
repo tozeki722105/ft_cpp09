@@ -21,6 +21,8 @@ public:
 	// bool _subChainFlag;
 	std::vector<Node<T> *> _subChainLinks;
 
+	static size_t _cmpCount;
+
 private:
 	Node();
 };
@@ -53,8 +55,7 @@ const Node<T> &Node<T>::operator=(const Node<T> &other)
 template <typename T>
 bool Node<T>::operator<(const Node<T> &rhs) const
 {
-	// static size_t count = 1;
-	// std::cout << "comp: " << count++ << "\n";
+	_cmpCount++;
 	return _val < rhs._val;
 }
 
