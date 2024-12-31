@@ -11,7 +11,7 @@ void disp(const Iterator &begin, const Iterator &end)
 {
 	Iterator it = begin;
 	while (it != end) {
-		std::cout << *it;  //<< '\n'
+		std::cout << *it << ' ';  //<< '\n'
 		it++;
 	}
 	std::cout << "\n";
@@ -41,9 +41,6 @@ Iterator prev(const Iterator &it)
 	std::advance(res, -1);
 	return res;
 }
-
-void test();
-size_t groupSize(size_t groupIndex);
 
 }  // namespace utl
 

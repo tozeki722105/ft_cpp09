@@ -8,23 +8,22 @@ template <typename T>
 class Node
 {
 public:
-	T _val;
-	bool _mainChainFlag;
-	// bool _subChainFlag;
-
-	Node();
 	Node(T val);
-	virtual ~Node();
+	~Node();
 	Node(const Node<T> &other);
 	const Node<T> &operator=(const Node<T> &other);
 
+	Node<T> *popSubChainLink();
 	bool operator<(const Node<T> &rhs) const;
-};
 
-template <typename T>
-Node<T>::Node() : _val(0), _mainChainFlag(false)
-{
-}
+	T _val;
+	bool _mainChainFlag;
+	// bool _subChainFlag;
+	std::vector<Node<T> *> _subChainLinks;
+
+private:
+	Node();
+};
 
 template <typename T>
 Node<T>::Node(T val) : _val(val), _mainChainFlag(false)
@@ -47,6 +46,7 @@ const Node<T> &Node<T>::operator=(const Node<T> &other)
 		return *this;
 	_val = other._val;
 	_mainChainFlag = other._mainChainFlag;
+	_subChainLinks = other._subChainLinks;
 	return *this;
 }
 
@@ -56,6 +56,30 @@ bool Node<T>::operator<(const Node<T> &rhs) const
 	// static size_t count = 1;
 	// std::cout << "comp: " << count++ << "\n";
 	return _val < rhs._val;
+}
+
+template <typename T>
+Node<T> *Node<T>::popSubChainLink()
+{
+	if (_subChainLinks.empty())
+		throw std::runtime_error("subChainLinks is empty");
+
+	Node<T> *res = _subChainLinks.back();
+	_subChainLinks.pop_back();
+	return res;
+}
+
+#include <iomanip>
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Node<T> &rhs)
+{
+	// os << "v:" << std::setw(2) << rhs._val << " ";
+	// if (!rhs._subChainLinks.empty())
+	// 	os << "s:" << std::setw(2) << rhs._subChainLinks.back()->_val;
+	// os << " ";
+	os << rhs._val;
+	return os;
 }
 
 template <typename T>
