@@ -16,7 +16,7 @@ const RPN &RPN::operator=(const RPN &other)
 {
 	if (this == &other)
 		return *this;
-	this->_stack = other._stack;
+	_stack = other._stack;
 	return *this;
 }
 
