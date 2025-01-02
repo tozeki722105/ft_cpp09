@@ -8,6 +8,8 @@ class RPN
 public:
 	RPN();
 	~RPN();
+	RPN(const RPN &other);
+	const RPN &operator=(const RPN &other);
 	void exec(char *RPNStr);
 
 private:

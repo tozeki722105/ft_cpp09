@@ -7,6 +7,19 @@ RPN::RPN() {}
 
 RPN::~RPN() {}
 
+RPN::RPN(const RPN &other)
+{
+	*this = other;
+}
+
+const RPN &RPN::operator=(const RPN &other)
+{
+	if (this == &other)
+		return *this;
+	this->_stack = other._stack;
+	return *this;
+}
+
 bool RPN::isOperator(char c) const
 {
 	return (c == '+' || c == '-' || c == '*' || c == '/');
