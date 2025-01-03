@@ -58,8 +58,8 @@ void PMergeMe<T>::mis(Vector &mainChain)
 
 		// mainChain it groupEnd
 		typename Vector::iterator last = groupEnd - 1;
-		size_t insertCount = std::distance(it, groupEnd);
-		for (size_t count = 0; count < insertCount;) {
+		distance_t insertCount = std::distance(it, groupEnd);
+		for (distance_t count = 0; count < insertCount;) {
 			if (last->_mainChainFlag) {
 				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
 				count++;

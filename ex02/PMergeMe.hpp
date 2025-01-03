@@ -15,7 +15,8 @@ class PMergeMe
 {
 	typedef typename std::list<Node<T> > List;
 	typedef typename std::vector<Node<T> > Vector;
-	typedef unsigned long long time_t;
+	typedef typename std::iterator_traits<typename List::iterator>::difference_type distance_t;
+	typedef long long time_t;
 
 public:
 	PMergeMe(int argc, char **argv);
@@ -57,12 +58,12 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 	if (argc <= 1)
 		throw std::runtime_error("Invalid argment count");
 
-	_elemCount = argc - 1;
+	_elemCount = static_cast<size_t>(argc - 1);
 	_arg.reserve(_elemCount);
 
 	std::stringstream ss;
 	unsigned int val;
-	for (size_t i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; i++) {
 		if (argv[i][0] == '\0')
 			throw std::runtime_error("Invalid argment");
 		ss << argv[i];

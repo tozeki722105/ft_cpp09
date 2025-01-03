@@ -6,9 +6,9 @@ void PMergeMe<T>::binaryInsert(List &con, const typename List::iterator &begin,
 {
 	typename List::iterator begin_cp = begin;
 
-	size_t half;
+	distance_t half;
 	typename List::iterator mid;
-	for (size_t len = std::distance(begin, end); len != 0;) {
+	for (distance_t len = std::distance(begin, end); len != 0;) {
 		half = len / 2;
 		mid = begin_cp;
 		std::advance(mid, half);
@@ -69,8 +69,8 @@ void PMergeMe<T>::mis(List &mainChain)
 
 		// mainChain it groupEnd
 		typename List::iterator last = utl::prev(groupEnd);
-		size_t insertCount = std::distance(it, groupEnd);
-		for (size_t count = 0; count < insertCount;) {
+		distance_t insertCount = std::distance(it, groupEnd);
+		for (distance_t count = 0; count < insertCount;) {
 			if (last->_mainChainFlag) {
 				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
 				count++;
