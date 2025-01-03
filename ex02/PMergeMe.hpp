@@ -115,8 +115,7 @@ void PMergeMe<T>::exec()
 		mis(_vec);
 		getTime(end);
 	}
-	size_t vecCmpCount = node._cmpCount;
-	node._cmpCount = 0;
+	size_t vecCmpCount = node.resetCompCount();
 	time_t vecDiff = diffTime(start, end);
 	{
 		getTime(start);
@@ -126,11 +125,11 @@ void PMergeMe<T>::exec()
 		mis(_list);
 		getTime(end);
 	}
-	size_t lstCmpCount = node._cmpCount;
-	node._cmpCount = 0;
+	size_t lstCmpCount = node.resetCompCount();
 	time_t lstDiff = diffTime(start, end);
 
 	std::cout << "After\t:   ";
+	utl::disp(_list.begin(), _list.end());
 	utl::disp(_vec.begin(), _vec.end());
 
 	std::cout << "Time to process a range of " << _elemCount
