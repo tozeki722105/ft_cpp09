@@ -23,16 +23,10 @@ void PMergeMe<T>::mis(Vector &mainChain)
 	Vector subchain;
 	Node<T> *remain = NULL;
 
-	// for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-	// 	it->setMainChainFlag(true);  // it->setMainChainFlag(false);
-	// 								 // it->_mainChainFlag = false;
-	// }
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag;
 			it += 2) {
 		typename Vector::iterator next = it + 1;
-		// ((*it < *next) ? next : it)->_mainChainFlag = true;
-		((*it < *next) ? it : next)
-				->setMainChainFlag(false);  //((*it < *next) ? next : it)->setMainChainFlag(true);
+		((*it < *next) ? it : next)->setMainChainFlag(false);
 	}
 	if (oddFlag)
 		mainChain.back().setMainChainFlag(false);
@@ -46,7 +40,6 @@ void PMergeMe<T>::mis(Vector &mainChain)
 
 	typename Vector::iterator subchainIt = subchain.begin();
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		// it->_subChainPtrs.push_back(&(*subchainIt));
 		it->pushSubChainPtr(&(*subchainIt));
 		subchainIt++;
 	}
@@ -83,7 +76,6 @@ void PMergeMe<T>::mis(Vector &mainChain)
 	subchain.clear();
 
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		// it->_mainChainFlag = true;
 		it->setMainChainFlag(true);
 	}
 }

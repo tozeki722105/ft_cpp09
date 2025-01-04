@@ -103,8 +103,8 @@ void PMergeMe<T>::exec()
 {
 	Node<unsigned int> node(0);  // cmpCountのために実体化
 
-	// std::cout << "Before\t:   ";
-	// utl::disp(_arg.begin(), _arg.end());
+	std::cout << "Before\t:   ";
+	utl::disp(_arg.begin(), _arg.end());
 
 	timeval start, end;
 	{
@@ -130,8 +130,8 @@ void PMergeMe<T>::exec()
 
 	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
 		throw std::logic_error("Not order");
-	// std::cout << "After\t:   ";
-	// utl::disp(_vec.begin(), _vec.end());
+	std::cout << "After\t:   ";
+	utl::disp(_vec.begin(), _vec.end());
 
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::list   : " << lstDiff << " us\n";
