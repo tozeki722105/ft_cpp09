@@ -12,6 +12,8 @@ BitcoinExchange::BitcoinExchange()
 	std::string buf, dateStr, valStr;
 	float rate;
 	std::getline(ifs, buf);
+	if (buf != "date,exchange_rate")
+		throw std::logic_error("bad input => " + buf);
 	while (std::getline(ifs, buf)) {
 		devideStr(buf, ",", dateStr, valStr);
 		rate = numeric<float>(valStr);
@@ -104,6 +106,8 @@ void BitcoinExchange::exec(const std::string &inputFile)
 	float val;
 	std::map<std::string, float>::iterator it;
 	std::getline(ifs, buf);
+	if (buf != "date | value")
+		throw std::logic_error("bad input => " + buf);
 	while (std::getline(ifs, buf)) {
 		try {
 			devideStr(buf, " | ", dateStr, valStr);
