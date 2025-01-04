@@ -1,5 +1,8 @@
 #include "PMergeMe.hpp"
 
+#include <algorithm>
+#include "utils.hpp"
+
 void PMergeMe::binaryInsert(
 		List &con, const List::iterator &begin, const List::iterator &end, LNode &val)
 {
@@ -21,7 +24,7 @@ void PMergeMe::binaryInsert(
 	con.insert(begin_cp, val);
 }
 
-void PMergeMe::mis(List &mainChain)
+void PMergeMe::mergeInsertionSort(List &mainChain)
 {
 	if (mainChain.size() <= 2) {
 		List::iterator first = mainChain.begin();
@@ -43,8 +46,7 @@ void PMergeMe::mis(List &mainChain)
 	if (oddFlag)
 		mainChain.back().setMainChainFlag(false);
 
-	List::iterator boundIt =
-			std::stable_partition(mainChain.begin(), mainChain.end(), isLMainChain);
+	List::iterator boundIt = std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
 
 	std::copy(boundIt, mainChain.end(), std::back_inserter(subchain));
 	mainChain.erase(boundIt, mainChain.end());
@@ -57,7 +59,7 @@ void PMergeMe::mis(List &mainChain)
 	if (oddFlag)
 		remain = &(*subchainIt);
 
-	mis(mainChain);
+	mergeInsertionSort(mainChain);
 
 	List::iterator it = mainChain.begin();
 	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChainPtr()));

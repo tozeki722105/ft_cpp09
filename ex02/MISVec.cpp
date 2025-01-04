@@ -1,5 +1,8 @@
 #include "PMergeMe.hpp"
 
+#include <algorithm>
+#include "utils.hpp"
+
 void PMergeMe::binaryInsert(
 		Vector &vec, const Vector::iterator &begin, const Vector::iterator &end, VNode &val)
 {
@@ -7,7 +10,7 @@ void PMergeMe::binaryInsert(
 	vec.insert(insert_it, val);
 }
 
-void PMergeMe::mis(Vector &mainChain)
+void PMergeMe::mergeInsertionSort(Vector &mainChain)
 {
 	if (mainChain.size() <= 2) {
 		Vector::iterator first = mainChain.begin();
@@ -29,7 +32,7 @@ void PMergeMe::mis(Vector &mainChain)
 		mainChain.back().setMainChainFlag(false);
 
 	Vector::iterator boundIt =
-			std::stable_partition(mainChain.begin(), mainChain.end(), isVMainChain);
+			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
 
 	subchain.reserve((mainChain.size() / 2) + oddFlag);
 	std::copy(boundIt, mainChain.end(), std::back_inserter(subchain));
@@ -43,7 +46,7 @@ void PMergeMe::mis(Vector &mainChain)
 	if (oddFlag)
 		remain = &(*subchainIt);
 
-	mis(mainChain);
+	mergeInsertionSort(mainChain);
 	mainChain.reserve(mainChain.size() + subchain.size());
 
 	Vector::iterator it = mainChain.begin();

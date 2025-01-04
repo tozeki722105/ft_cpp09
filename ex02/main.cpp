@@ -1,7 +1,6 @@
 #include "PMergeMe.hpp"
 
-size_t VNode::_cmpCount = 0;  // cmpCountの初期化
-size_t LNode::_cmpCount = 0;  // cmpCountの初期化
+size_t Node::_cmpCount = 0;  // cmpCountの初期化
 
 int main(int argc, char** argv)
 {

@@ -1,30 +1,5 @@
-#ifndef NODE_HPP
-#define NODE_HPP
-
-class Node
-{
-public:
-	Node();
-	Node(int val);
-	~Node();
-	Node(const Node &other);
-	const Node &operator=(const Node &other);
-
-	// getter
-	int getVal() const;
-	bool getMainChainFlag() const;
-	// setter
-	void setMainChainFlag(bool val);
-
-	// size_t resetCompCount();
-	bool operator<(const Node &rhs) const;
-
-private:
-	int _val;
-	bool _mainChainFlag;
-
-	// static size_t _cmpCount;  // 比較をカウントする静的メンバ変数
-};
+#include "Node.hpp"
+#include <iomanip>
 
 Node::Node() : _mainChainFlag(true) {}
 
@@ -61,12 +36,12 @@ void Node::setMainChainFlag(bool val)
 	_mainChainFlag = val;
 }
 
-// size_t Node::resetCompCount()
-// {
-// 	size_t res = _cmpCount;
-// 	_cmpCount = 0;
-// 	return res;
-// }
+size_t Node::resetCompCount()
+{
+	size_t res = _cmpCount;
+	_cmpCount = 0;
+	return res;
+}
 
 bool Node::operator<(const Node &rhs) const
 {
@@ -79,8 +54,6 @@ bool isMainChain(Node &node)
 	return node.getMainChainFlag();
 }
 
-#include <iomanip>
-
 std::ostream &operator<<(std::ostream &os, const Node &rhs)
 {
 	// os << "v:" << std::setw(2) << rhs._val << " ";
@@ -90,5 +63,3 @@ std::ostream &operator<<(std::ostream &os, const Node &rhs)
 	os << rhs.getVal();
 	return os;
 }
-
-#endif
