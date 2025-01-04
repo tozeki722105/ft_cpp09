@@ -14,7 +14,7 @@ void PMergeMe<T>::mis(Vector &mainChain)
 	if (mainChain.size() <= 2) {
 		typename Vector::iterator first = mainChain.begin();
 		typename Vector::iterator last = first + 1;
-		if (last != mainChain.end() && *last < *first)
+		if (mainChain.size() == 2 && *last < *first)
 			std::iter_swap(first, last);
 		return;
 	}
@@ -60,7 +60,7 @@ void PMergeMe<T>::mis(Vector &mainChain)
 
 		// mainChain it groupEnd
 		typename Vector::iterator last = groupEnd - 1;
-		distance_t insertCount = std::distance(it, groupEnd);
+		distance_t insertCount = groupEnd - it;
 		for (distance_t count = 0; count < insertCount;) {
 			if (last->getMainChainFlag()) {
 				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));

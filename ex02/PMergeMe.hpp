@@ -65,16 +65,16 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 	_arg.reserve(_elemCount);
 
 	std::stringstream ss;
-	int val;
+	long val;
 	for (int i = 1; i < argc; i++) {
 		if (argv[i][0] == '\0')
 			throw std::logic_error("Error");
 		ss << argv[i];
-		if (!(ss >> val) || !ss.eof() || val < 0)
+		if (!(ss >> val) || !ss.eof() || val < 0 || val > INT_MAX)
 			throw std::logic_error("Error");
 		ss.clear();
 
-		_arg.push_back(val);
+		_arg.push_back(static_cast<int>(val));
 	}
 }
 

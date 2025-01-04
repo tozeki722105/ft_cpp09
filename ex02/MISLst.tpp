@@ -28,7 +28,7 @@ void PMergeMe<T>::mis(List &mainChain)
 	if (mainChain.size() <= 2) {
 		typename List::iterator first = mainChain.begin();
 		typename List::iterator last = utl::next(first);
-		if (last != mainChain.end() && *last < *first)
+		if (mainChain.size() == 2 && *last < *first)
 			std::iter_swap(first, last);
 		return;
 	}
