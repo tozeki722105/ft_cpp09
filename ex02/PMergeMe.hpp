@@ -1,10 +1,13 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include "Node.hpp"
-#include <iostream>
+#include <vector>
+#include <list>
 #include <sstream>
+#include <iostream>
 #include <algorithm>
+
+#include "Node.hpp"
 #include "utils.hpp"
 
 #include <ctime>
@@ -16,7 +19,7 @@ class PMergeMe
 	typedef typename std::list<Node<T> > List;
 	typedef typename std::vector<Node<T> > Vector;
 	typedef typename std::iterator_traits<typename List::iterator>::difference_type distance_t;
-	typedef long long time_t;
+	typedef long long PMMTime_t;
 
 public:
 	PMergeMe(int argc, char **argv);
@@ -28,7 +31,7 @@ public:
 
 private:
 	size_t _elemCount;
-	std::vector<unsigned int> _arg;
+	std::vector<int> _arg;
 	Vector _vec;
 	List _list;
 
@@ -46,7 +49,7 @@ private:
 	{
 		gettimeofday(&val, NULL);
 	}
-	inline time_t diffTime(timeval start, timeval end)
+	inline PMMTime_t diffTime(timeval start, timeval end)
 	{
 		return (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
 	}
@@ -56,19 +59,19 @@ template <typename T>
 PMergeMe<T>::PMergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
-		throw std::runtime_error("Invalid argment count");
+		throw std::logic_error("Invalid argment count");
 
 	_elemCount = static_cast<size_t>(argc - 1);
 	_arg.reserve(_elemCount);
 
 	std::stringstream ss;
-	unsigned int val;
+	int val;
 	for (int i = 1; i < argc; i++) {
 		if (argv[i][0] == '\0')
-			throw std::runtime_error("Invalid argment");
+			throw std::logic_error("Invalid argment");
 		ss << argv[i];
-		if (!(ss >> val) || !ss.eof())
-			throw std::runtime_error("Invalid argment");
+		if (!(ss >> val) || !ss.eof() || val < 0)
+			throw std::logic_error("Invalid argment");
 		ss.clear();
 
 		_arg.push_back(val);
@@ -116,7 +119,7 @@ void PMergeMe<T>::exec()
 		getTime(end);
 	}
 	size_t vecCmpCount = node.resetCompCount();
-	time_t vecDiff = diffTime(start, end);
+	PMMTime_t vecDiff = diffTime(start, end);
 	{
 		getTime(start);
 		for (size_t i = 0; i < _arg.size(); i++) {
@@ -126,7 +129,7 @@ void PMergeMe<T>::exec()
 		getTime(end);
 	}
 	size_t lstCmpCount = node.resetCompCount();
-	time_t lstDiff = diffTime(start, end);
+	PMMTime_t lstDiff = diffTime(start, end);
 
 	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
 		throw std::logic_error("Not order");

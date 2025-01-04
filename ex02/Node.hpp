@@ -1,13 +1,13 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include <list>
 #include <vector>
 
 template <typename T>
 class Node
 {
 public:
+	Node();
 	Node(T val);
 	~Node();
 	Node(const Node<T> &other);
@@ -25,14 +25,17 @@ public:
 	bool operator<(const Node<T> &rhs) const;
 
 private:
-	Node();
-
 	T _val;
 	bool _mainChainFlag;
 	std::vector<Node<T> *> _subChainPtrs;
 
 	static size_t _cmpCount;  // 比較をカウントする静的メンバ変数
 };
+
+template <typename T>
+Node<T>::Node() : _mainChainFlag(true)
+{
+}
 
 template <typename T>
 Node<T>::Node(T val) : _val(val), _mainChainFlag(true)
@@ -77,7 +80,7 @@ template <typename T>
 Node<T> *Node<T>::popSubChainPtr()
 {
 	if (_subChainPtrs.empty())
-		throw std::runtime_error("subChainPtrs is empty");
+		throw std::logic_error("subChainPtrs is empty");
 
 	Node<T> *res = _subChainPtrs.back();
 	_subChainPtrs.pop_back();
@@ -94,7 +97,7 @@ template <typename T>
 void Node<T>::pushSubChainPtr(Node<T> *subChainPtr)
 {
 	if (!subChainPtr)
-		throw std::runtime_error("subChainNode is NULL");
+		throw std::logic_error("subChainNode is NULL");
 
 	_subChainPtrs.push_back(subChainPtr);
 }
@@ -114,13 +117,13 @@ bool Node<T>::operator<(const Node<T> &rhs) const
 	return _val < rhs._val;
 }
 
-#include <iomanip>
-
 template <typename T>
 bool isMainChain(Node<T> &node)
 {
 	return node.getMainChainFlag();
 }
+
+#include <iomanip>
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Node<T> &rhs)
