@@ -59,7 +59,7 @@ template <typename T>
 PMergeMe<T>::PMergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
-		throw std::logic_error("Invalid argment count");
+		throw std::logic_error("Error");
 
 	_elemCount = static_cast<size_t>(argc - 1);
 	_arg.reserve(_elemCount);
@@ -68,10 +68,10 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 	int val;
 	for (int i = 1; i < argc; i++) {
 		if (argv[i][0] == '\0')
-			throw std::logic_error("Invalid argment");
+			throw std::logic_error("Error");
 		ss << argv[i];
 		if (!(ss >> val) || !ss.eof() || val < 0)
-			throw std::logic_error("Invalid argment");
+			throw std::logic_error("Error");
 		ss.clear();
 
 		_arg.push_back(val);
