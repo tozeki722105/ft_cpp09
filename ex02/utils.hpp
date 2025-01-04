@@ -7,17 +7,6 @@
 namespace utl
 {
 template <typename Iterator>
-void disp(const Iterator &begin, const Iterator &end)
-{
-	Iterator it = begin;
-	while (it != end) {
-		std::cout << *it << ' ';  //<< '\n'
-		it++;
-	}
-	std::cout << "\n";
-}
-
-template <typename Iterator>
 Iterator next(const Iterator &it, size_t n, const Iterator &end)
 {
 	Iterator res = it;
@@ -40,6 +29,32 @@ Iterator prev(const Iterator &it)
 	Iterator res = it;
 	std::advance(res, -1);
 	return res;
+}
+
+template <typename Iterator>
+void disp(const Iterator &begin, const Iterator &end)
+{
+	Iterator it = begin;
+	while (it != end) {
+		std::cout << *it << ' ';  //<< '\n'
+		it++;
+	}
+	std::cout << "\n";
+}
+
+template <typename Iterator>
+bool isOrder(const Iterator &begin, const Iterator &end)
+{
+	if (std::distance(begin, end) < 2)
+		throw std::logic_error("size is less than 2");
+
+	Iterator it = begin;
+	for (Iterator next = utl::next(it); next != end; next++) {
+		if (*next < *it)
+			return false;
+		it = next;
+	}
+	return true;
 }
 
 }  // namespace utl

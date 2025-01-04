@@ -20,36 +20,45 @@ void PMergeMe<T>::mis(Vector &mainChain)
 	}
 
 	bool oddFlag = (mainChain.size() % 2 != 0);
+	Vector subchain;
+	Node<T> *remain = NULL;
 
-	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		it->_mainChainFlag = false;
+	// for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
+	// 	it->setMainChainFlag(true);  // it->setMainChainFlag(false);
+	// 								 // it->_mainChainFlag = false;
+	// }
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag;
 			it += 2) {
 		typename Vector::iterator next = it + 1;
-		((*it < *next) ? next : it)->_mainChainFlag = true;
+		// ((*it < *next) ? next : it)->_mainChainFlag = true;
+		((*it < *next) ? it : next)
+				->setMainChainFlag(false);  //((*it < *next) ? next : it)->setMainChainFlag(true);
 	}
+	if (oddFlag)
+		(mainChain.back()).setMainChainFlag(false);
 
-	typename Vector::iterator bound =
+	typename Vector::iterator boundIt =
 			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain<T>);
 
-	Vector subchain;
 	subchain.reserve((mainChain.size() / 2) + oddFlag);
-	std::copy(bound, mainChain.end(), std::back_inserter(subchain));
-	mainChain.erase(bound, mainChain.end());
+	std::copy(boundIt, mainChain.end(), std::back_inserter(subchain));
+	mainChain.erase(boundIt, mainChain.end());
 
-	typename Vector::iterator subchain_it = subchain.begin();
+	typename Vector::iterator subchainIt = subchain.begin();
 	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		it->_subChainLinks.push_back(&(*subchain_it));
-		subchain_it++;
+		// it->_subChainPtrs.push_back(&(*subchainIt));
+		it->pushSubChainPtr(&(*subchainIt));
+		subchainIt++;
 	}
-	Node<T> *remain = (oddFlag) ? &(*subchain_it) : NULL;
+	if (oddFlag)
+		remain = &(*subchainIt);
 
 	mis(mainChain);
 
 	mainChain.reserve(mainChain.size() + subchain.size());
 
 	typename Vector::iterator it = mainChain.begin();
-	mainChain.insert(it, *(it->popSubChainLink()));
+	mainChain.insert(it, *(it->popSubChainPtr()));
 	it += 2;
 
 	size_t n = 1;
@@ -60,8 +69,8 @@ void PMergeMe<T>::mis(Vector &mainChain)
 		typename Vector::iterator last = groupEnd - 1;
 		distance_t insertCount = std::distance(it, groupEnd);
 		for (distance_t count = 0; count < insertCount;) {
-			if (last->_mainChainFlag) {
-				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
+			if (last->getMainChainFlag()) {
+				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));
 				count++;
 			} else
 				last--;
@@ -73,6 +82,8 @@ void PMergeMe<T>::mis(Vector &mainChain)
 
 	subchain.clear();
 
-	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		it->_mainChainFlag = true;
+	for (typename Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
+		// it->_mainChainFlag = true;
+		it->setMainChainFlag(true);
+	}
 }
