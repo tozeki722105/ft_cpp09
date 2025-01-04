@@ -2,7 +2,7 @@
 
 template <typename T>
 void PMergeMe<T>::binaryInsert(Vector &vec, const typename Vector::iterator &begin,
-		const typename Vector::iterator &end, Node<T> val)
+		const typename Vector::iterator &end, Node<T> &val)
 {
 	typename Vector::iterator insert_it = std::lower_bound(begin, end, val);
 	vec.insert(insert_it, val);
@@ -35,7 +35,7 @@ void PMergeMe<T>::mis(Vector &mainChain)
 				->setMainChainFlag(false);  //((*it < *next) ? next : it)->setMainChainFlag(true);
 	}
 	if (oddFlag)
-		(mainChain.back()).setMainChainFlag(false);
+		mainChain.back().setMainChainFlag(false);
 
 	typename Vector::iterator boundIt =
 			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain<T>);

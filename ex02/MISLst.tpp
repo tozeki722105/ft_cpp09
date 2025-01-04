@@ -2,7 +2,7 @@
 
 template <typename T>
 void PMergeMe<T>::binaryInsert(List &con, const typename List::iterator &begin,
-		const typename List::iterator &end, Node<T> val)
+		const typename List::iterator &end, Node<T> &val)
 {
 	typename List::iterator begin_cp = begin;
 
@@ -34,33 +34,37 @@ void PMergeMe<T>::mis(List &mainChain)
 	}
 
 	bool oddFlag = (mainChain.size() % 2 != 0);
+	List subchain;
+	Node<T> *remain = NULL;
 
-	for (typename List::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		it->_mainChainFlag = false;
+	// for (typename List::iterator it = mainChain.begin(); it != mainChain.end(); it++)
+	// 	it->_mainChainFlag = false;
 	typename List::iterator swapEnd = (oddFlag) ? utl::prev(mainChain.end()) : mainChain.end();
 	for (typename List::iterator it = mainChain.begin(); it != swapEnd; std::advance(it, 2)) {
 		typename List::iterator next = utl::next(it);
-		((*it < *next) ? next : it)->_mainChainFlag = true;
+		((*it < *next) ? it : next)->setMainChainFlag(false);
 	}
+	if (oddFlag)
+		mainChain.back().setMainChainFlag(false);
 
-	typename List::iterator bound =
+	typename List::iterator boundIt =
 			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain<T>);
 
-	List subchain;
-	std::copy(bound, mainChain.end(), std::back_inserter(subchain));
-	mainChain.erase(bound, mainChain.end());
+	std::copy(boundIt, mainChain.end(), std::back_inserter(subchain));
+	mainChain.erase(boundIt, mainChain.end());
 
-	typename List::iterator subchain_it = subchain.begin();
+	typename List::iterator subchainIt = subchain.begin();
 	for (typename List::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		it->_subChainLinks.push_back(&(*subchain_it));
-		subchain_it++;
+		it->pushSubChainPtr(&(*subchainIt));
+		subchainIt++;
 	}
-	Node<T> *remain = (oddFlag) ? &(*subchain_it) : NULL;
+	if (oddFlag)
+		remain = &(*subchainIt);
 
 	mis(mainChain);
 
 	typename List::iterator it = mainChain.begin();
-	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChainLink()));
+	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChainPtr()));
 	it++;
 
 	size_t n = 1;
@@ -71,8 +75,8 @@ void PMergeMe<T>::mis(List &mainChain)
 		typename List::iterator last = utl::prev(groupEnd);
 		distance_t insertCount = std::distance(it, groupEnd);
 		for (distance_t count = 0; count < insertCount;) {
-			if (last->_mainChainFlag) {
-				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainLink()));
+			if (last->getMainChainFlag()) {
+				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));
 				count++;
 			}
 			last--;  //
@@ -85,5 +89,5 @@ void PMergeMe<T>::mis(List &mainChain)
 	subchain.clear();
 
 	for (typename List::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		it->_mainChainFlag = true;
+		it->setMainChainFlag(true);
 }

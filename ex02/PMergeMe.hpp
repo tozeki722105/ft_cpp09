@@ -33,11 +33,11 @@ private:
 	List _list;
 
 	void binaryInsert(Vector &vec, const typename Vector::iterator &begin,
-			const typename Vector::iterator &end, Node<T> val);
+			const typename Vector::iterator &end, Node<T> &val);
 	void mis(Vector &mainChain);
 
 	void binaryInsert(List &vec, const typename List::iterator &begin,
-			const typename List::iterator &end, Node<T> val);
+			const typename List::iterator &end, Node<T> &val);
 	void mis(List &mainChain);
 
 	void test();
@@ -103,8 +103,8 @@ void PMergeMe<T>::exec()
 {
 	Node<unsigned int> node(0);  // cmpCountのために実体化
 
-	std::cout << "Before\t:   ";
-	utl::disp(_arg.begin(), _arg.end());
+	// std::cout << "Before\t:   ";
+	// utl::disp(_arg.begin(), _arg.end());
 
 	timeval start, end;
 	{
@@ -128,9 +128,10 @@ void PMergeMe<T>::exec()
 	size_t lstCmpCount = node.resetCompCount();
 	time_t lstDiff = diffTime(start, end);
 
-	std::cout << "After\t:   ";
-	utl::disp(_list.begin(), _list.end());
-	utl::disp(_vec.begin(), _vec.end());
+	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
+		throw std::logic_error("Not order");
+	// std::cout << "After\t:   ";
+	// utl::disp(_vec.begin(), _vec.end());
 
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::list   : " << lstDiff << " us\n";
