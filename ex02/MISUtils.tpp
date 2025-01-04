@@ -1,13 +1,11 @@
 #include "PMergeMe.hpp"
 
-template <typename T>
-void PMergeMe<T>::test()
+void PMergeMe::test()
 {
 	std::cout << "test test test test test test test test test\n";
 }
 
-template <typename T>
-size_t PMergeMe<T>::groupSize(size_t groupIndex)
+size_t PMergeMe::groupSize(size_t groupIndex)
 {
 	static const size_t lookupTable[] = {0, 2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366, 2730,
 			5462, 10922, 21846, 43690, 87382, 174762, 349526, 699050, 1398102, 2796202, 5592406,

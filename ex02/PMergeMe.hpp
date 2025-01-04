@@ -7,25 +7,25 @@
 #include <iostream>
 #include <algorithm>
 
-#include "Node.hpp"
+#include "VNode.hpp"
+#include "LNode.hpp"
 #include "utils.hpp"
 
 #include <ctime>
 #include <sys/time.h>
 
-template <typename T>
 class PMergeMe
 {
-	typedef typename std::list<Node<T> > List;
-	typedef typename std::vector<Node<T> > Vector;
-	typedef typename std::iterator_traits<typename List::iterator>::difference_type distance_t;
+	typedef std::list<LNode> List;
+	typedef std::vector<VNode> Vector;
+	typedef std::iterator_traits<List::iterator>::difference_type distance_t;
 	typedef long long PMMTime_t;
 
 public:
 	PMergeMe(int argc, char **argv);
 	~PMergeMe();
 	PMergeMe(const PMergeMe &other);
-	const PMergeMe<T> &operator=(const PMergeMe<T> &other);
+	const PMergeMe &operator=(const PMergeMe &other);
 
 	void exec();
 
@@ -35,12 +35,12 @@ private:
 	Vector _vec;
 	List _list;
 
-	void binaryInsert(Vector &vec, const typename Vector::iterator &begin,
-			const typename Vector::iterator &end, Node<T> &val);
+	void binaryInsert(
+			Vector &vec, const Vector::iterator &begin, const Vector::iterator &end, VNode &val);
 	void mis(Vector &mainChain);
 
-	void binaryInsert(List &vec, const typename List::iterator &begin,
-			const typename List::iterator &end, Node<T> &val);
+	void binaryInsert(
+			List &vec, const List::iterator &begin, const List::iterator &end, LNode &val);
 	void mis(List &mainChain);
 
 	void test();
@@ -55,8 +55,7 @@ private:
 	}
 };
 
-template <typename T>
-PMergeMe<T>::PMergeMe(int argc, char **argv)
+PMergeMe::PMergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
 		throw std::logic_error("Error");
@@ -78,19 +77,14 @@ PMergeMe<T>::PMergeMe(int argc, char **argv)
 	}
 }
 
-template <typename T>
-PMergeMe<T>::~PMergeMe()
-{
-}
+PMergeMe::~PMergeMe() {}
 
-template <typename T>
-PMergeMe<T>::PMergeMe(const PMergeMe &other)
+PMergeMe::PMergeMe(const PMergeMe &other)
 {
 	*this = other;
 }
 
-template <typename T>
-const PMergeMe<T> &PMergeMe<T>::operator=(const PMergeMe<T> &other)
+const PMergeMe &PMergeMe::operator=(const PMergeMe &other)
 {
 	if (this == &other)
 		return *this;
@@ -101,10 +95,10 @@ const PMergeMe<T> &PMergeMe<T>::operator=(const PMergeMe<T> &other)
 	return *this;
 }
 
-template <typename T>
-void PMergeMe<T>::exec()
+void PMergeMe::exec()
 {
-	Node<int> node(0);  // cmpCountのために実体化
+	LNode lnode(0);  // cmpCountのために実体化
+	VNode vnode(0);  // cmpCountのために実体化
 
 	std::cout << "Before\t:   ";
 	utl::disp(_arg.begin(), _arg.end());
@@ -113,34 +107,34 @@ void PMergeMe<T>::exec()
 	{
 		getTime(start);
 		for (size_t i = 0; i < _arg.size(); i++) {
-			_vec.push_back(Node<T>(_arg[i]));
+			_vec.push_back(VNode(_arg[i]));
 		}
 		mis(_vec);
 		getTime(end);
 	}
-	size_t vecCmpCount = node.resetCompCount();
+	size_t vecCmpCount = vnode.resetCompCount();
 	PMMTime_t vecDiff = diffTime(start, end);
-	{
-		getTime(start);
-		for (size_t i = 0; i < _arg.size(); i++) {
-			_list.push_back(Node<T>(_arg[i]));
-		}
-		mis(_list);
-		getTime(end);
-	}
-	size_t lstCmpCount = node.resetCompCount();
-	PMMTime_t lstDiff = diffTime(start, end);
+	// {
+	// 	getTime(start);
+	// 	for (size_t i = 0; i < _arg.size(); i++) {
+	// 		_list.push_back(LNode(_arg[i]));
+	// 	}
+	// 	mis(_list);
+	// 	getTime(end);
+	// }
+	size_t listCmpCount = lnode.resetCompCount();
+	// PMMTime_t lstDiff = diffTime(start, end);
 
-	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
-		throw std::logic_error("Not order");
-	std::cout << "After\t:   ";
-	utl::disp(_vec.begin(), _vec.end());
+	// if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
+	// 	throw std::logic_error("Not order");
+	// std::cout << "After\t:   ";
+	// utl::disp(_vec.begin(), _vec.end());
 
-	std::cout << "Time to process a range of " << _elemCount
-			  << " elements with std::list   : " << lstDiff << " us\n";
+	// std::cout << "Time to process a range of " << _elemCount
+	// 		  << " elements with std::list   : " << lstDiff << " us\n";
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::vector : " << vecDiff << " us\n";
-	std::cout << "CmpCount : vector = " << vecCmpCount << " list = " << lstCmpCount << "\n";
+	std::cout << "CmpCount : vector = " << vecCmpCount << " list = " << listCmpCount << "\n";
 }
 
 #include "MISLst.tpp"
