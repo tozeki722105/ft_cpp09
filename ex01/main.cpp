@@ -10,5 +10,6 @@ int main(int argc, char** argv)
 		rpn.exec(argv[1]);
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << '\n';
+		return 1;
 	}
 }
