@@ -50,7 +50,6 @@ void RPN::calcPush(long long rVal, char ope, long long lVal)
 		if (rVal == 0)
 			throw std::logic_error("Error");
 		res = lVal / rVal;
-		;
 	}
 
 	if (res < std::numeric_limits<int>::min() || std::numeric_limits<int>::max() < res)
@@ -76,7 +75,7 @@ void RPN::exec(char *RPNStr)
 			throw std::logic_error("Error");
 	}
 
-	if (!ss.eof())
+	if (!ss.eof())  // char型への変換が失敗したとき
 		throw std::logic_error("Error");
 	if (_stack.size() != 1)
 		throw std::logic_error("Error");

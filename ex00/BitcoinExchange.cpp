@@ -91,9 +91,7 @@ std::map<std::string, float>::iterator BitcoinExchange::findData(const std::stri
 		throw std::logic_error("not found matching data. => " + dateStr);
 
 	std::map<std::string, float>::iterator it = _map.lower_bound(dateStr);
-	if (dateStr != it->first)
-		it--;
-	return it;
+	return (dateStr == it->first) ? it : --it;
 }
 
 void BitcoinExchange::exec(const std::string &inputFile)
