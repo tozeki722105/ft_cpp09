@@ -104,7 +104,7 @@ const PMergeMe<T> &PMergeMe<T>::operator=(const PMergeMe<T> &other)
 template <typename T>
 void PMergeMe<T>::exec()
 {
-	Node<unsigned int> node(0);  // cmpCountのために実体化
+	Node<int> node(0);  // cmpCountのために実体化
 
 	std::cout << "Before\t:   ";
 	utl::disp(_arg.begin(), _arg.end());
