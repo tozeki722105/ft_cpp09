@@ -9,7 +9,7 @@ class LNode : public Node
 public:
 	LNode();
 	LNode(int val);
-	~LNode();
+	virtual ~LNode();
 	LNode(const LNode &other);
 	const LNode &operator=(const LNode &other);
 
