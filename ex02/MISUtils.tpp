@@ -15,7 +15,7 @@ size_t PMergeMe<T>::groupSize(size_t groupIndex)
 	static size_t size = sizeof(lookupTable) / sizeof(*lookupTable);
 
 	if (groupIndex == 0)
-		throw std::invalid_argument("groupIndex is 0");
+		throw std::logic_error("groupIndex is 0");
 	if (groupIndex < size)
 		return lookupTable[groupIndex];
 
