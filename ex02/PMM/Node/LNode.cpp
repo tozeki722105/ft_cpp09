@@ -1,6 +1,6 @@
 #include "LNode.hpp"
 
-LNode::LNode() : Node() {}  ////
+LNode::LNode() : Node() {}
 
 LNode::LNode(int val) : Node(val) {}
 

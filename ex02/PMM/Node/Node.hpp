@@ -1,8 +1,9 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include "stddef.h"
 #include <iostream>
+
+#include "stddef.h"
 
 class Node
 {

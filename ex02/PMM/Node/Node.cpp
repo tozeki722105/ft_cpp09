@@ -1,4 +1,5 @@
 #include "Node.hpp"
+
 #include <iomanip>
 
 Node::Node() : _mainChainFlag(true) {}

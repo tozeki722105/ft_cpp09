@@ -1,6 +1,6 @@
-#include "PMergeMe.hpp"
-
 #include <algorithm>
+
+#include "PMergeMe.hpp"
 #include "utils.hpp"
 
 void PMergeMe::binaryInsert(

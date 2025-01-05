@@ -1,6 +1,6 @@
 #include "VNode.hpp"
 
-VNode::VNode() : Node() {}  ////
+VNode::VNode() : Node() {}
 
 VNode::VNode(int val) : Node(val) {}
 

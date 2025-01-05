@@ -1,13 +1,14 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <vector>
-#include <list>
-#include "Node/VNode.hpp"
-#include "Node/LNode.hpp"
+#include <sys/time.h>
 
 #include <ctime>
-#include <sys/time.h>
+#include <list>
+#include <vector>
+
+#include "Node/LNode.hpp"
+#include "Node/VNode.hpp"
 
 class PMergeMe
 {

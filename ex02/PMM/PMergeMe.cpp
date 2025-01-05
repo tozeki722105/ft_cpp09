@@ -1,7 +1,8 @@
 #include "PMergeMe.hpp"
 
-#include <sstream>
 #include <iostream>
+#include <sstream>
+
 #include "utils.hpp"
 
 PMergeMe::PMergeMe(int argc, char **argv)
@@ -48,8 +49,8 @@ void PMergeMe::exec()
 {
 	Node node(0);  // cmpCountのために実体化
 
-	// std::cout << "Before\t:   ";
-	// utl::disp(_arg.begin(), _arg.end());
+	std::cout << "Before\t:   ";
+	utl::disp(_arg.begin(), _arg.end());
 
 	timeval start, end;
 	{
@@ -62,26 +63,26 @@ void PMergeMe::exec()
 	}
 	size_t vecCmpCount = node.resetCompCount();
 	PMMTime_t vecDiff = diffTime(start, end);
-	// {
-	// 	getTime(start);
-	// 	for (size_t i = 0; i < _arg.size(); i++) {
-	// 		_list.push_back(LNode(_arg[i]));
-	// 	}
-	// 	mergeInsertionSort(_list);
-	// 	getTime(end);
-	// }
-	// size_t listCmpCount = node.resetCompCount();
-	// PMMTime_t listDiff = diffTime(start, end);
+	{
+		getTime(start);
+		for (size_t i = 0; i < _arg.size(); i++) {
+			_list.push_back(LNode(_arg[i]));
+		}
+		mergeInsertionSort(_list);
+		getTime(end);
+	}
+	size_t listCmpCount = node.resetCompCount();
+	PMMTime_t listDiff = diffTime(start, end);
 
-	// if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
-	// 	throw std::logic_error("Not order");
-	// std::cout << "After\t:   ";
-	// utl::disp(_vec.begin(), _vec.end());
+	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
+		throw std::logic_error("Not order");
+	std::cout << "After\t:   ";
+	utl::disp(_vec.begin(), _vec.end());
 
-	// std::cout << "Time to process a range of " << _elemCount
-	// 		  << " elements with std::list   : " << listDiff << " us\n";
+	std::cout << "Time to process a range of " << _elemCount
+			  << " elements with std::list   : " << listDiff << " us\n";
 	std::cout << "Time to process a range of " << _elemCount
 			  << " elements with std::vector : " << vecDiff << " us\n";
 	std::cout << "CmpCount : vector = " << vecCmpCount << "\n";
-	// std::cout << " list = " << listCmpCount << "\n";
+	std::cout << "CmpCount : list = " << listCmpCount << "\n";
 }

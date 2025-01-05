@@ -2,6 +2,7 @@
 #define VNODE_HPP
 
 #include <vector>
+
 #include "Node.hpp"
 
 class VNode : public Node
@@ -19,7 +20,7 @@ public:
 	void pushSubChainPtr(VNode *subChainNode);
 
 private:
-	std::vector<VNode *> _subChainPtrs;  ///
+	std::vector<VNode *> _subChainPtrs;
 };
 
 #endif

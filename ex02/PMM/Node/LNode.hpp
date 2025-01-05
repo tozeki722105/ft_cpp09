@@ -2,6 +2,7 @@
 #define LNODE_HPP
 
 #include <list>
+
 #include "Node.hpp"
 
 class LNode : public Node
@@ -19,7 +20,7 @@ public:
 	void pushSubChainPtr(LNode *subChainNode);
 
 private:
-	std::list<LNode *> _subChainPtrs;
+	std::list<LNode *> _subChainPtrs;  //
 };
 
 #endif
