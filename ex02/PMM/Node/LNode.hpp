@@ -8,7 +8,6 @@
 class LNode : public Node
 {
 public:
-	LNode();
 	LNode(int val);
 	virtual ~LNode();
 	LNode(const LNode &other);
@@ -20,6 +19,7 @@ public:
 	void pushSubChainPtr(LNode *subChainNode);
 
 private:
+	LNode();
 	std::list<LNode *> _subChainPtrs;  //
 };
 

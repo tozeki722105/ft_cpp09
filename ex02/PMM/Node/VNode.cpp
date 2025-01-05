@@ -1,7 +1,5 @@
 #include "VNode.hpp"
 
-VNode::VNode() : Node() {}
-
 VNode::VNode(int val) : Node(val) {}
 
 VNode::~VNode() {}
@@ -33,7 +31,7 @@ VNode *VNode::popSubChainPtr()
 void VNode::pushSubChainPtr(VNode *subChainPtr)
 {
 	if (!subChainPtr)
-		throw std::logic_error("subChainNode is NULL");
+		throw std::logic_error("subChainPtr is NULL");
 
 	_subChainPtrs.push_back(subChainPtr);
 }

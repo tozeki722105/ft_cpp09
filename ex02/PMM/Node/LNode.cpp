@@ -1,7 +1,5 @@
 #include "LNode.hpp"
 
-LNode::LNode() : Node() {}
-
 LNode::LNode(int val) : Node(val) {}
 
 LNode::~LNode() {}
@@ -33,7 +31,7 @@ LNode *LNode::popSubChainPtr()
 void LNode::pushSubChainPtr(LNode *subChainPtr)
 {
 	if (!subChainPtr)
-		throw std::logic_error("subChainNode is NULL");
+		throw std::logic_error("subChainPtr is NULL");
 
 	_subChainPtrs.push_back(subChainPtr);
 }
