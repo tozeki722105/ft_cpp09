@@ -1,0 +1,279 @@
+Before: 21 1 13 2 17 3 12 4 20 5 15 6 19 7 14 8 18 9 16 10 11 
+compareChunk: 21 vs 1
+compareChunk: 13 vs 2
+compareChunk: 17 vs 3
+compareChunk: 12 vs 4
+compareChunk: 20 vs 5
+compareChunk: 15 vs 6
+compareChunk: 19 vs 7
+compareChunk: 14 vs 8
+compareChunk: 18 vs 9
+compareChunk: 16 vs 10
+### After compare Chunk ###
+1 21 2 13 3 17 4 12 5 20 6 15 7 19 8 14 9 18 10 16 11 
+compareChunk: 21 vs 13
+compareChunk: 17 vs 12
+compareChunk: 20 vs 15
+compareChunk: 19 vs 14
+compareChunk: 18 vs 16
+### After compare Chunk ###
+2 13 1 21 4 12 3 17 6 15 5 20 8 14 7 19 10 16 9 18 11 
+compareChunk: 21 vs 17
+compareChunk: 20 vs 19
+### After compare Chunk ###
+4 12 3 17 2 13 1 21 8 14 7 19 6 15 5 20 10 16 9 18 11 
+compareChunk: 21 vs 20
+### After compare Chunk ###
+8 14 7 19 6 15 5 20 4 12 3 17 2 13 1 21 10 16 9 18 11 
+### After compare Chunk ###
+8 14 7 19 6 15 5 20 4 12 3 17 2 13 1 21 10 16 9 18 11 
+tmpMainChain: 20 21 
+reconstruct vec: 8 14 7 19 6 15 5 20 4 12 3 17 2 13 1 21 10 16 9 18 11 
+tmpMainChain: 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 19, chunkScale: 8
+targetVal: 18
+compare: 20 vs 18
+compare: 19 vs 18
+tmpMainChain: 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 11, chunkScale: 8
+targetVal: 17
+compare: 19 vs 17
+compare: 18 vs 17
+tmpMainChain: 17 18 19 20 21 
+reconstruct vec: 4 12 3 17 10 16 9 18 8 14 7 19 6 15 5 20 2 13 1 21 11 
+tmpMainChain: 12 17 18 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 9, chunkScale: 4
+targetVal: 14
+compare: 17 vs 14
+compare: 12 vs 14
+tmpMainChain: 12 14 17 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 5, chunkScale: 4
+targetVal: 16
+compare: 14 vs 16
+compare: 17 vs 16
+tmpMainChain: 12 14 16 17 18 19 20 21 
+iTarget: 4, iEnd: 3, targetIndex: 17, chunkScale: 4
+targetVal: 13
+compare: 17 vs 13
+compare: 14 vs 13
+compare: 12 vs 13
+tmpMainChain: 12 13 14 16 17 18 19 20 21 
+iTarget: 3, iEnd: 3, targetIndex: 13, chunkScale: 4
+targetVal: 15
+compare: 16 vs 15
+compare: 13 vs 15
+compare: 14 vs 15
+tmpMainChain: 12 13 14 15 16 17 18 19 20 21 
+reconstruct vec: 4 12 2 13 8 14 6 15 10 16 3 17 9 18 7 19 5 20 1 21 11 
+tmpMainChain: 4 12 13 14 15 16 17 18 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 4, chunkScale: 2
+targetVal: 8
+compare: 12 vs 8
+compare: 4 vs 8
+tmpMainChain: 4 8 12 13 14 15 16 17 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 2, chunkScale: 2
+targetVal: 2
+compare: 8 vs 2
+compare: 4 vs 2
+tmpMainChain: 2 4 8 12 13 14 15 16 17 18 19 20 21 
+iTarget: 4, iEnd: 3, targetIndex: 8, chunkScale: 2
+targetVal: 10
+compare: 12 vs 10
+compare: 4 vs 10
+compare: 8 vs 10
+tmpMainChain: 2 4 8 10 12 13 14 15 16 17 18 19 20 21 
+iTarget: 3, iEnd: 3, targetIndex: 6, chunkScale: 2
+targetVal: 6
+compare: 10 vs 6
+compare: 4 vs 6
+compare: 8 vs 6
+tmpMainChain: 2 4 6 8 10 12 13 14 15 16 17 18 19 20 21 
+iTarget: 10, iEnd: 5, targetIndex: 20, chunkScale: 2
+targetVal: 11
+compare: 14 vs 11
+compare: 8 vs 11
+compare: 12 vs 11
+compare: 10 vs 11
+tmpMainChain: 2 4 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 9, iEnd: 5, targetIndex: 18, chunkScale: 2
+targetVal: 1
+compare: 13 vs 1
+compare: 8 vs 1
+compare: 4 vs 1
+compare: 2 vs 1
+tmpMainChain: 1 2 4 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 8, iEnd: 5, targetIndex: 16, chunkScale: 2
+targetVal: 5
+compare: 12 vs 5
+compare: 6 vs 5
+compare: 2 vs 5
+compare: 4 vs 5
+tmpMainChain: 1 2 4 5 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 7, iEnd: 5, targetIndex: 14, chunkScale: 2
+targetVal: 7
+compare: 11 vs 7
+compare: 5 vs 7
+compare: 8 vs 7
+compare: 6 vs 7
+tmpMainChain: 1 2 4 5 6 7 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 6, iEnd: 5, targetIndex: 12, chunkScale: 2
+targetVal: 9
+compare: 10 vs 9
+compare: 5 vs 9
+compare: 7 vs 9
+compare: 8 vs 9
+tmpMainChain: 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 5, iEnd: 5, targetIndex: 10, chunkScale: 2
+targetVal: 3
+compare: 9 vs 3
+compare: 5 vs 3
+compare: 2 vs 3
+compare: 4 vs 3
+tmpMainChain: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+reconstruct vec: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+compare count: 66
+
+
+After:  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+Time to process a range of 21 elements with std::vector : 1189 us(microsecond)
+compareChunk: 21 vs 1
+compareChunk: 13 vs 2
+compareChunk: 17 vs 3
+compareChunk: 12 vs 4
+compareChunk: 20 vs 5
+compareChunk: 15 vs 6
+compareChunk: 19 vs 7
+compareChunk: 14 vs 8
+compareChunk: 18 vs 9
+compareChunk: 16 vs 10
+### After compare Chunk ###
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+compareChunk: 21 vs 13
+compareChunk: 17 vs 12
+compareChunk: 20 vs 15
+compareChunk: 19 vs 14
+compareChunk: 18 vs 16
+### After compare Chunk ###
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+compareChunk: 21 vs 17
+compareChunk: 20 vs 19
+### After compare Chunk ###
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+compareChunk: 21 vs 20
+### After compare Chunk ###
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+### After compare Chunk ###
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+tmpMainChain: 20 21 
+reconstruct vec: 8 14 7 19 6 15 5 20 4 12 3 17 2 13 1 21 10 16 9 18 11 
+tmpMainChain: 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 19, chunkScale: 8
+targetVal: 18
+compare: 20 vs 18
+compare: 19 vs 18
+tmpMainChain: 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 11, chunkScale: 8
+targetVal: 17
+compare: 19 vs 17
+compare: 18 vs 17
+tmpMainChain: 17 18 19 20 21 
+reconstruct vec: 4 12 3 17 10 16 9 18 8 14 7 19 6 15 5 20 2 13 1 21 11 
+tmpMainChain: 12 17 18 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 9, chunkScale: 4
+targetVal: 14
+compare: 17 vs 14
+compare: 12 vs 14
+tmpMainChain: 12 14 17 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 5, chunkScale: 4
+targetVal: 16
+compare: 14 vs 16
+compare: 17 vs 16
+tmpMainChain: 12 14 16 17 18 19 20 21 
+iTarget: 4, iEnd: 3, targetIndex: 17, chunkScale: 4
+targetVal: 13
+compare: 17 vs 13
+compare: 14 vs 13
+compare: 12 vs 13
+tmpMainChain: 12 13 14 16 17 18 19 20 21 
+iTarget: 3, iEnd: 3, targetIndex: 13, chunkScale: 4
+targetVal: 15
+compare: 16 vs 15
+compare: 13 vs 15
+compare: 14 vs 15
+tmpMainChain: 12 13 14 15 16 17 18 19 20 21 
+reconstruct vec: 4 12 2 13 8 14 6 15 10 16 3 17 9 18 7 19 5 20 1 21 11 
+tmpMainChain: 4 12 13 14 15 16 17 18 19 20 21 
+iTarget: 2, iEnd: 1, targetIndex: 4, chunkScale: 2
+targetVal: 8
+compare: 12 vs 8
+compare: 4 vs 8
+tmpMainChain: 4 8 12 13 14 15 16 17 18 19 20 21 
+iTarget: 1, iEnd: 1, targetIndex: 2, chunkScale: 2
+targetVal: 2
+compare: 8 vs 2
+compare: 4 vs 2
+tmpMainChain: 2 4 8 12 13 14 15 16 17 18 19 20 21 
+iTarget: 4, iEnd: 3, targetIndex: 8, chunkScale: 2
+targetVal: 10
+compare: 12 vs 10
+compare: 4 vs 10
+compare: 8 vs 10
+tmpMainChain: 2 4 8 10 12 13 14 15 16 17 18 19 20 21 
+iTarget: 3, iEnd: 3, targetIndex: 6, chunkScale: 2
+targetVal: 6
+compare: 10 vs 6
+compare: 4 vs 6
+compare: 8 vs 6
+tmpMainChain: 2 4 6 8 10 12 13 14 15 16 17 18 19 20 21 
+iTarget: 10, iEnd: 5, targetIndex: 20, chunkScale: 2
+targetVal: 11
+compare: 14 vs 11
+compare: 8 vs 11
+compare: 12 vs 11
+compare: 10 vs 11
+tmpMainChain: 2 4 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 9, iEnd: 5, targetIndex: 18, chunkScale: 2
+targetVal: 1
+compare: 13 vs 1
+compare: 8 vs 1
+compare: 4 vs 1
+compare: 2 vs 1
+tmpMainChain: 1 2 4 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 8, iEnd: 5, targetIndex: 16, chunkScale: 2
+targetVal: 5
+compare: 12 vs 5
+compare: 6 vs 5
+compare: 2 vs 5
+compare: 4 vs 5
+tmpMainChain: 1 2 4 5 6 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 7, iEnd: 5, targetIndex: 14, chunkScale: 2
+targetVal: 7
+compare: 11 vs 7
+compare: 5 vs 7
+compare: 8 vs 7
+compare: 6 vs 7
+tmpMainChain: 1 2 4 5 6 7 8 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 6, iEnd: 5, targetIndex: 12, chunkScale: 2
+targetVal: 9
+compare: 10 vs 9
+compare: 5 vs 9
+compare: 7 vs 9
+compare: 8 vs 9
+tmpMainChain: 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+iTarget: 5, iEnd: 5, targetIndex: 10, chunkScale: 2
+targetVal: 3
+compare: 9 vs 3
+compare: 5 vs 3
+compare: 2 vs 3
+compare: 4 vs 3
+tmpMainChain: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+reconstruct vec: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 
+compare count: 66
+
+
+Time to process a range of 21 elements with std::deque : 936 us(microsecond)
+--- my::sort vs std::sort ---
+-- part Vector --
+success
+-- part Deque --
+success
