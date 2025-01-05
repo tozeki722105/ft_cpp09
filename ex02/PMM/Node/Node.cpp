@@ -46,7 +46,8 @@ size_t Node::resetCompCount()
 bool Node::operator<(const Node &rhs) const
 {
 	_cmpCount++;
-	std::cout << "count: " << _cmpCount << "left: " << _val << "right: " << rhs._val << "\n";
+	// std::cout << "i: " << std::setw(2) << _cmpCount << " left: " << std::setw(2) << _val
+	// 		  << " right: " << std::setw(2) << rhs._val << "\n";
 	return _val < rhs._val;
 }
 

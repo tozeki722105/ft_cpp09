@@ -17,6 +17,7 @@ void PMergeMe::mergeInsertionSort(Vector &mainChain)
 		Vector::iterator last = first + 1;
 		if (mainChain.size() == 2 && *last < *first)
 			std::iter_swap(first, last);
+		// std::cout << "\n";
 		return;
 	}
 
@@ -46,8 +47,13 @@ void PMergeMe::mergeInsertionSort(Vector &mainChain)
 	if (oddFlag)
 		remain = &(*subchainIt);
 
+	// std::cout << "\n";
 	mergeInsertionSort(mainChain);
 	mainChain.reserve(mainChain.size() + subchain.size());
+	// std::cout << "mainChain\n";
+	// utl::disp(mainChain.begin(), mainChain.end());
+	// std::cout << "subChain\n";
+	// utl::disp(subchain.begin(), subchain.end());
 
 	Vector::iterator it = mainChain.begin();
 	mainChain.insert(it, *(it->popSubChainPtr()));
@@ -76,4 +82,5 @@ void PMergeMe::mergeInsertionSort(Vector &mainChain)
 	for (Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
 		it->setMainChainFlag(true);
 	}
+	// std::cout << "\n";
 }
