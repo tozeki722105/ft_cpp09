@@ -1,5 +1,6 @@
-#include "RPN.hpp"
 #include <iostream>
+
+#include "RPN.hpp"
 
 int main(int argc, char** argv)
 {
