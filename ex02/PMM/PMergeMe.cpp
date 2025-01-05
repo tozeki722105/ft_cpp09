@@ -10,8 +10,8 @@ PMergeMe::PMergeMe(int argc, char **argv)
 	if (argc <= 1)
 		throw std::logic_error("Error");
 
-	_elemCount = static_cast<size_t>(argc - 1);
-	_arg.reserve(_elemCount);
+	size_t elemCount = static_cast<size_t>(argc - 1);
+	_arg.reserve(elemCount);
 
 	std::stringstream ss;
 	long val;
@@ -38,7 +38,6 @@ const PMergeMe &PMergeMe::operator=(const PMergeMe &other)
 {
 	if (this == &other)
 		return *this;
-	_elemCount = other._elemCount;
 	_arg = other._arg;
 	_vec = other._vec;
 	_list = other._list;
@@ -79,9 +78,9 @@ void PMergeMe::exec()
 	std::cout << "After\t:   ";
 	utl::disp(_vec.begin(), _vec.end());
 
-	std::cout << "Time to process a range of " << _elemCount
+	std::cout << "Time to process a range of " << _arg.size()
 			  << " elements with std::list   : " << listDiff << " us\n";
-	std::cout << "Time to process a range of " << _elemCount
+	std::cout << "Time to process a range of " << _arg.size()
 			  << " elements with std::vector : " << vecDiff << " us\n";
 	std::cout << "CmpCount : vector = " << vecCmpCount << "\n";
 	std::cout << "CmpCount : list = " << listCmpCount << "\n";

@@ -26,7 +26,6 @@ public:
 	void exec();
 
 private:
-	size_t _elemCount;
 	std::vector<int> _arg;
 	Vector _vec;
 	List _list;
