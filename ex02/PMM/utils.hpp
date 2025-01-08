@@ -6,6 +6,8 @@
 
 namespace utl
 {
+
+/// @brief endより先は返さないstd::next
 template <typename Iterator>
 Iterator next(const Iterator &it, size_t n, const Iterator &end)
 {
@@ -15,6 +17,7 @@ Iterator next(const Iterator &it, size_t n, const Iterator &end)
 	return res;
 }
 
+/// @brief std::nextを真似たもの
 template <typename Iterator>
 Iterator next(const Iterator &it, size_t n = 1)
 {
@@ -23,6 +26,7 @@ Iterator next(const Iterator &it, size_t n = 1)
 	return res;
 }
 
+/// @brief std::prevを真似たもの
 template <typename Iterator>
 Iterator prev(const Iterator &it)
 {
@@ -46,7 +50,7 @@ template <typename Iterator>
 bool isOrder(const Iterator &begin, const Iterator &end)
 {
 	if (std::distance(begin, end) < 2)
-		throw std::logic_error("size is less than 2");
+		return true;
 
 	Iterator it = begin;
 	for (Iterator next = utl::next(it); next != end; next++) {

@@ -37,6 +37,7 @@ void Node::setMainChainFlag(bool val)
 	_mainChainFlag = val;
 }
 
+/// @brief cmpCountを0にし、それまでの値を返す
 size_t Node::resetCompCount()
 {
 	size_t res = _cmpCount;

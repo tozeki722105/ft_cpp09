@@ -20,7 +20,7 @@ public:
 
 private:
 	LNode();
-	std::list<LNode *> _subChainPtrs;  //
+	std::list<LNode *> _subChainPtrs;  // ここの型だけ違う
 };
 
 #endif

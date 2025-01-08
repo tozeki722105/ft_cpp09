@@ -28,6 +28,9 @@ private:
 	T numeric(const std::string &valStr);
 };
 
+/// @brief 文字列を数値に変換する
+/// @tparam T 数値型
+/// @return 正常に変換できれば、数値を返す
 template <typename T>
 T BitcoinExchange::numeric(const std::string &valStr)
 {

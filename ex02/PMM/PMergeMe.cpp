@@ -73,6 +73,7 @@ void PMergeMe::exec()
 	size_t listCmpCount = node.resetCompCount();
 	PMMTime_t listDiff = diffTime(start, end);
 
+	// 正しくソートされてなければ、エラー
 	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))
 		throw std::logic_error("Not order");
 	std::cout << "After\t:   ";

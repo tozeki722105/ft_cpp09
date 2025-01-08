@@ -11,9 +11,12 @@ BitcoinExchange::BitcoinExchange()
 
 	std::string buf, dateStr, valStr;
 	float rate;
+
+	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date,exchange_rate")
 		throw std::logic_error("bad input => " + buf);
+
 	while (std::getline(ifs, buf)) {
 		devideStr(buf, ",", dateStr, valStr);
 		rate = numeric<float>(valStr);
@@ -23,7 +26,7 @@ BitcoinExchange::BitcoinExchange()
 		if (!_map.insert(std::make_pair(dateStr, rate)).second)  // keyに重複がある
 			throw std::logic_error("duplicate input. => " + dateStr);
 	}
-	if (_map.empty())
+	if (_map.empty())  // data.csvが空
 		throw std::logic_error("no data file => ./data.csv");
 	// for (std::map<std::string, float>::iterator i = _map.begin(); i != _map.end(); i++) {
 	// 	std::cout << i->first << "; : " << i->second << ';' << std::endl;
@@ -93,7 +96,8 @@ std::map<std::string, float>::iterator BitcoinExchange::findData(const std::stri
 		throw std::logic_error("not found matching data. => " + dateStr);
 
 	std::map<std::string, float>::iterator it = _map.lower_bound(dateStr);
-	return (dateStr == it->first) ? it : --it;
+	return (dateStr == it->first) ? it
+								  : --it;  // 同じ日付でなければ、dateStrよりひとつ前の日付を返す
 }
 
 void BitcoinExchange::exec(const std::string &inputFile)
@@ -105,9 +109,12 @@ void BitcoinExchange::exec(const std::string &inputFile)
 	std::string buf, dateStr, valStr;
 	float val;
 	std::map<std::string, float>::iterator it;
+
+	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date | value")
 		throw std::logic_error("bad input => " + buf);
+
 	while (std::getline(ifs, buf)) {
 		try {
 			devideStr(buf, " | ", dateStr, valStr);

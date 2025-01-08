@@ -5,6 +5,7 @@ void PMergeMe::test()
 	std::cout << "test test test test test test test test test\n";
 }
 
+/// @brief 引数が30未満なら,lookupTableから返す
 size_t PMergeMe::groupSize(size_t groupIndex)
 {
 	static const size_t lookupTable[] = {0, 2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366, 2730,

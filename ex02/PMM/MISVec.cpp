@@ -56,8 +56,8 @@ void PMergeMe::mergeInsertionSort(Vector &mainChain)
 	// utl::disp(subchain.begin(), subchain.end());
 
 	Vector::iterator it = mainChain.begin();
-	mainChain.insert(it, *(it->popSubChainPtr()));
-	it += 2;
+	mainChain.insert(it, *(it->popSubChainPtr()));  // ここでitの挿している要素が更新される
+	it += 2;                                        // 次の要素＋挿入した一個分
 
 	size_t n = 1;
 	while (it != mainChain.end()) {
@@ -70,9 +70,9 @@ void PMergeMe::mergeInsertionSort(Vector &mainChain)
 				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));
 				count++;
 			} else
-				last--;
+				last--;  // insertするとlastを指しているNodeも更新されるため、insert時は更新しない
 		}
-		it = groupEnd + insertCount;
+		it = groupEnd + insertCount;  // groupEndを更新されるため、insertCountを足して次に移る
 	}
 	if (remain)
 		binaryInsert(mainChain, mainChain.begin(), mainChain.end(), *(remain));

@@ -20,7 +20,7 @@ public:
 
 private:
 	VNode();
-	std::vector<VNode *> _subChainPtrs;
+	std::vector<VNode *> _subChainPtrs;  // ここの型だけ違う
 };
 
 #endif
