@@ -4,6 +4,7 @@ RM		:=	rm -f
 
 TARGET	:=	btc
 SRCS    :=	BitcoinExchange.cpp \
+			Date.cpp \
 			main.cpp 
 OBJS    :=	$(patsubst %.cpp, %.o, $(SRCS))
 

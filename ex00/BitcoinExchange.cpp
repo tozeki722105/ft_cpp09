@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "Date.hpp"
+
 BitcoinExchange::BitcoinExchange()
 {
 	std::ifstream ifs("./data.csv");
@@ -21,13 +23,13 @@ BitcoinExchange::BitcoinExchange()
 		double rate = numeric<double>(rateStr);
 		if (rate < 0.0)
 			throw std::logic_error("not a positive number.");
-		checkValidDate(dateStr);
-		if (!_map.insert(std::make_pair(dateStr, rate)).second)  // keyに重複がある
+		Date date(dateStr);
+		if (!_map.insert(std::make_pair(date, rate)).second)  // keyに重複がある
 			throw std::logic_error("duplicate input. => " + dateStr);
 	}
 	if (_map.empty())  // data.csvが空
 		throw std::logic_error("no data file => ./data.csv");
-	// for (std::map<std::string, double>::iterator i = _map.begin(); i != _map.end(); i++) {
+	// for (std::map<Date, double>::iterator i = _map.begin(); i != _map.end(); i++) {
 	// 	std::cout << i->first << "; : " << i->second << ';' << std::endl;
 	// }
 }
@@ -59,43 +61,13 @@ void BitcoinExchange::devideStr(const std::string &str, const std::string &delim
 	devideB = str.substr(delimPos + delim.length());
 }
 
-static bool isValidDay(unsigned int year, unsigned int month, unsigned int day)
+std::map<Date, double>::iterator BitcoinExchange::findData(const Date &date)
 {
-	if (!(year >= 1 && year <= 9999 && month >= 1 && month <= 12 && day >= 1 && day <= 31))
-		return false;
+	if (date < _map.begin()->first)
+		throw std::logic_error("not found matching data. => " + date.toStr());
 
-	if (month == 2) {
-		if ((year % 4 == 0 && year % 100 == 0 && year % 400 == 0) ||
-				(year % 4 == 0 && year % 100 != 0))  // 閏年なら
-			return day <= 29;
-		else
-			return day <= 28;
-	} else if (month == 4 || month == 6 || month == 9 || month == 11)
-		return day <= 30;
-	else
-		return day <= 31;
-}
-
-void BitcoinExchange::checkValidDate(const std::string &dateStr)
-{
-	if (dateStr.empty())
-		throw std::logic_error("bad input => " + dateStr);
-
-	unsigned int y, m, d;
-	char c1, c2;
-	std::stringstream ss(dateStr);
-	if (!(ss >> y && ss >> c1 && ss >> m && ss >> c2 && ss >> d && ss.eof() &&
-				isValidDay(y, m, d) && c1 == '-' && c2 == '-'))
-		throw std::logic_error("bad input => " + dateStr);
-}
-
-std::map<std::string, double>::iterator BitcoinExchange::findData(const std::string &dateStr)
-{
-	if (dateStr < _map.begin()->first)
-		throw std::logic_error("not found matching data. => " + dateStr);
-
-	std::map<std::string, double>::iterator it = _map.lower_bound(dateStr);
-	return (dateStr == it->first) ? it
+	std::map<Date, double>::iterator it = _map.lower_bound(date);
+	return (date == it->first) ? it
 								  : --it;  // 同じ日付でなければ、dateStrよりひとつ前の日付を返す
 }
 
@@ -120,8 +92,8 @@ void BitcoinExchange::exec(const std::string &inputFile)
 				throw std::logic_error("not a positive number.");
 			if (amount > 1000.0)
 				throw std::logic_error("too large a number.");
-			checkValidDate(dateStr);
-			std::map<std::string, double>::iterator it = findData(dateStr);
+			Date date(dateStr);
+			std::map<Date, double>::iterator it = findData(date);
 			std::cout << dateStr << " => " << amountStr << " = " << amount * it->second << "\n";
 		} catch (const std::exception &e) {
 			std::cerr << "Error: " << e.what() << '\n';

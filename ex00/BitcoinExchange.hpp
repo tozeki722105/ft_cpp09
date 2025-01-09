@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include "Date.hpp"
 
 class BitcoinExchange
 {
@@ -15,14 +16,11 @@ public:
 	void exec(const std::string &inputFile);
 
 private:
-	std::map<std::string, double> _map;
-	// static const double MIN_NUM = 0.0;
-	// static const double MAX_NUM = 1000.0;
+	std::map<Date, double> _map;
 
 	void devideStr(const std::string &str, const std::string &delim, std::string &devideA,
 			std::string &devideB);
-	void checkValidDate(const std::string &dateStr);
-	std::map<std::string, double>::iterator findData(const std::string &dateStr);
+	std::map<Date, double>::iterator findData(const Date &date);
 
 	template <typename T>
 	T numeric(const std::string &valStr);
