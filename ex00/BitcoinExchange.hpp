@@ -15,14 +15,14 @@ public:
 	void exec(const std::string &inputFile);
 
 private:
-	std::map<std::string, float> _map;
-	// static const float MIN_NUM = 0.0;
-	// static const float MAX_NUM = 1000.0;
+	std::map<std::string, double> _map;
+	// static const double MIN_NUM = 0.0;
+	// static const double MAX_NUM = 1000.0;
 
 	void devideStr(const std::string &str, const std::string &delim, std::string &devideA,
 			std::string &devideB);
 	void checkValidDate(const std::string &dateStr);
-	std::map<std::string, float>::iterator findData(const std::string &dateStr);
+	std::map<std::string, double>::iterator findData(const std::string &dateStr);
 
 	template <typename T>
 	T numeric(const std::string &valStr);

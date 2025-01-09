@@ -9,17 +9,16 @@ BitcoinExchange::BitcoinExchange()
 	if (!ifs)
 		throw std::runtime_error("could not open file. => ./data.csv");
 
-	std::string buf, dateStr, valStr;
-	float rate;
-
+	std::string buf;
 	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date,exchange_rate")
 		throw std::logic_error("bad input => " + buf);
 
 	while (std::getline(ifs, buf)) {
-		devideStr(buf, ",", dateStr, valStr);
-		rate = numeric<float>(valStr);
+		std::string dateStr, rateStr;
+		devideStr(buf, ",", dateStr, rateStr);
+		double rate = numeric<double>(rateStr);
 		if (rate < 0.0)
 			throw std::logic_error("not a positive number.");
 		checkValidDate(dateStr);
@@ -28,7 +27,7 @@ BitcoinExchange::BitcoinExchange()
 	}
 	if (_map.empty())  // data.csvが空
 		throw std::logic_error("no data file => ./data.csv");
-	// for (std::map<std::string, float>::iterator i = _map.begin(); i != _map.end(); i++) {
+	// for (std::map<std::string, double>::iterator i = _map.begin(); i != _map.end(); i++) {
 	// 	std::cout << i->first << "; : " << i->second << ';' << std::endl;
 	// }
 }
@@ -90,12 +89,12 @@ void BitcoinExchange::checkValidDate(const std::string &dateStr)
 		throw std::logic_error("bad input => " + dateStr);
 }
 
-std::map<std::string, float>::iterator BitcoinExchange::findData(const std::string &dateStr)
+std::map<std::string, double>::iterator BitcoinExchange::findData(const std::string &dateStr)
 {
 	if (dateStr < _map.begin()->first)
 		throw std::logic_error("not found matching data. => " + dateStr);
 
-	std::map<std::string, float>::iterator it = _map.lower_bound(dateStr);
+	std::map<std::string, double>::iterator it = _map.lower_bound(dateStr);
 	return (dateStr == it->first) ? it
 								  : --it;  // 同じ日付でなければ、dateStrよりひとつ前の日付を返す
 }
@@ -106,10 +105,7 @@ void BitcoinExchange::exec(const std::string &inputFile)
 	if (!ifs)
 		throw std::runtime_error("could not open file. => " + inputFile);
 
-	std::string buf, dateStr, valStr;
-	float val;
-	std::map<std::string, float>::iterator it;
-
+	std::string buf;
 	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date | value")
@@ -117,15 +113,16 @@ void BitcoinExchange::exec(const std::string &inputFile)
 
 	while (std::getline(ifs, buf)) {
 		try {
-			devideStr(buf, " | ", dateStr, valStr);
-			val = numeric<float>(valStr);
-			if (val < 0.0)
+			std::string dateStr, amountStr;
+			devideStr(buf, " | ", dateStr, amountStr);
+			double amount = numeric<double>(amountStr);
+			if (amount < 0.0)
 				throw std::logic_error("not a positive number.");
-			if (val > 1000.0)
+			if (amount > 1000.0)
 				throw std::logic_error("too large a number.");
 			checkValidDate(dateStr);
-			it = findData(dateStr);
-			std::cout << dateStr << " => " << valStr << " = " << val * it->second << "\n";
+			std::map<std::string, double>::iterator it = findData(dateStr);
+			std::cout << dateStr << " => " << amountStr << " = " << amount * it->second << "\n";
 		} catch (const std::exception &e) {
 			std::cerr << "Error: " << e.what() << '\n';
 		}
