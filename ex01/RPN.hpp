@@ -18,7 +18,7 @@ private:
 	bool isOperator(char c) const;
 	int pop();
 	void push(int val);
-	void calcPush(long long rVal, char ope, long long lVal);
+	void calcPush(long long left, char ope, long long right);
 };
 
 #endif

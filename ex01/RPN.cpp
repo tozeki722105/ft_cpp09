@@ -38,21 +38,21 @@ void RPN::push(int val)
 	_stack.push(val);
 }
 
-/// @param rVal,lVal int型だと ./RPN "0 2 - 8 8 8 8 8 8 8 8 8 8 * * * * * * * * * * 0 1 - /"
+/// @param right,left int型だと ./RPN "0 2 - 8 8 8 8 8 8 8 8 8 8 * * * * * * * * * * 0 1 - /"
 /// でクラッシュする
-void RPN::calcPush(long long rVal, char ope, long long lVal)
+void RPN::calcPush(long long left, char ope, long long right)
 {
 	long long res;
 	if (ope == '+')
-		res = lVal + rVal;
+		res = left + right;
 	else if (ope == '-')
-		res = lVal - rVal;
+		res = left - right;
 	else if (ope == '*')
-		res = lVal * rVal;
+		res = left * right;
 	else {
-		if (rVal == 0)  // 0で割るときはエラー
+		if (right == 0)  // 0で割るときはエラー
 			throw std::logic_error("Error");
-		res = lVal / rVal;
+		res = left / right;
 	}
 
 	// intオーバーフローしたら、エラー
@@ -74,7 +74,9 @@ void RPN::exec(char *RPNStr)
 		else if (isOperator(c)) {
 			if (_stack.size() < 2)
 				throw std::logic_error("Error");
-			calcPush(pop(), c, pop());
+			int right = pop();
+			int left = pop();
+			calcPush(left, c, right);
 		} else
 			throw std::logic_error("Error");
 	}
