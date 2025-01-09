@@ -10,18 +10,18 @@
 #include "Node/LNode.hpp"
 #include "Node/VNode.hpp"
 
-class PMergeMe
+class PmergeMe
 {
 	typedef std::list<LNode> List;
 	typedef std::vector<VNode> Vector;
 	typedef std::iterator_traits<List::iterator>::difference_type distance_t;
-	typedef long long PMMTime_t;
+	typedef long long PMTime_t;
 
 public:
-	PMergeMe(int argc, char **argv);
-	~PMergeMe();
-	PMergeMe(const PMergeMe &other);
-	const PMergeMe &operator=(const PMergeMe &other);
+	PmergeMe(int argc, char **argv);
+	~PmergeMe();
+	PmergeMe(const PmergeMe &other);
+	const PmergeMe &operator=(const PmergeMe &other);
 
 	void exec();
 
@@ -48,7 +48,7 @@ private:
 	{
 		gettimeofday(&val, NULL);
 	}
-	inline PMMTime_t diffTime(timeval start, timeval end)
+	inline PMTime_t diffTime(timeval start, timeval end)
 	{
 		return (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
 	}

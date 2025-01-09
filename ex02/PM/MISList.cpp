@@ -1,9 +1,9 @@
 #include <algorithm>
 
-#include "PMergeMe.hpp"
+#include "PmergeMe.hpp"
 #include "utils.hpp"
 
-void PMergeMe::binaryInsert(
+void PmergeMe::binaryInsert(
 		List &con, const List::iterator &begin, const List::iterator &end, LNode &val)
 {
 	List::iterator begin_cp = begin;
@@ -24,7 +24,7 @@ void PMergeMe::binaryInsert(
 	con.insert(begin_cp, val);
 }
 
-void PMergeMe::mergeInsertionSort(List &mainChain)
+void PmergeMe::mergeInsertionSort(List &mainChain)
 {
 	if (mainChain.size() <= 2) {
 		List::iterator first = mainChain.begin();

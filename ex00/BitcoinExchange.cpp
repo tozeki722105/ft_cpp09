@@ -102,7 +102,7 @@ std::map<std::string, float>::iterator BitcoinExchange::findData(const std::stri
 
 void BitcoinExchange::exec(const std::string &inputFile)
 {
-	std::ifstream ifs(inputFile);
+	std::ifstream ifs(inputFile.c_str());
 	if (!ifs)
 		throw std::runtime_error("could not open file. => " + inputFile);
 

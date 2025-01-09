@@ -1,11 +1,12 @@
-#include "PMergeMe.hpp"
+#include "PmergeMe.hpp"
 
 #include <iostream>
 #include <sstream>
+#include <climits>
 
 #include "utils.hpp"
 
-PMergeMe::PMergeMe(int argc, char **argv)
+PmergeMe::PmergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
 		throw std::logic_error("Error");
@@ -27,14 +28,14 @@ PMergeMe::PMergeMe(int argc, char **argv)
 	}
 }
 
-PMergeMe::~PMergeMe() {}
+PmergeMe::~PmergeMe() {}
 
-PMergeMe::PMergeMe(const PMergeMe &other)
+PmergeMe::PmergeMe(const PmergeMe &other)
 {
 	*this = other;
 }
 
-const PMergeMe &PMergeMe::operator=(const PMergeMe &other)
+const PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 {
 	if (this == &other)
 		return *this;
@@ -44,7 +45,7 @@ const PMergeMe &PMergeMe::operator=(const PMergeMe &other)
 	return *this;
 }
 
-void PMergeMe::exec()
+void PmergeMe::exec()
 {
 	Node node(0);  // cmpCountのために実体化
 
@@ -61,7 +62,7 @@ void PMergeMe::exec()
 		getTime(end);
 	}
 	size_t vecCmpCount = node.resetCompCount();
-	PMMTime_t vecDiff = diffTime(start, end);
+	PMTime_t vecDiff = diffTime(start, end);
 	{
 		getTime(start);
 		for (size_t i = 0; i < _arg.size(); i++) {
@@ -71,7 +72,7 @@ void PMergeMe::exec()
 		getTime(end);
 	}
 	size_t listCmpCount = node.resetCompCount();
-	PMMTime_t listDiff = diffTime(start, end);
+	PMTime_t listDiff = diffTime(start, end);
 
 	// 正しくソートされてなければ、エラー
 	if (!(utl::isOrder(_vec.begin(), _vec.end())) || !(utl::isOrder(_list.begin(), _list.end())))

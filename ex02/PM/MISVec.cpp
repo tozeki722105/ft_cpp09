@@ -1,16 +1,16 @@
 #include <algorithm>
 
-#include "PMergeMe.hpp"
+#include "PmergeMe.hpp"
 #include "utils.hpp"
 
-void PMergeMe::binaryInsert(
+void PmergeMe::binaryInsert(
 		Vector &vec, const Vector::iterator &begin, const Vector::iterator &end, VNode &val)
 {
 	Vector::iterator insert_it = std::lower_bound(begin, end, val);
 	vec.insert(insert_it, val);
 }
 
-void PMergeMe::mergeInsertionSort(Vector &mainChain)
+void PmergeMe::mergeInsertionSort(Vector &mainChain)
 {
 	if (mainChain.size() <= 2) {
 		Vector::iterator first = mainChain.begin();
