@@ -72,7 +72,7 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 			} else
 				last--;  // insertするとlastを指しているNodeも更新されるため、insert時は更新しない
 		}
-		it = groupEnd + insertCount;  // groupEndを更新されるため、insertCountを足して次に移る
+		it = groupEnd + insertCount;  // groupEndも更新されるため、insertCountを足して次に移る
 	}
 	if (remain)
 		binaryInsert(mainChain, mainChain.begin(), mainChain.end(), *(remain));
