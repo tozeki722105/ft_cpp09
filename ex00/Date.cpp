@@ -29,6 +29,7 @@ const Date &Date::operator=(const Date &other)
 	_year = other._year;
 	_month = other._month;
 	_day = other._day;
+	_str = other._str;
 	return *this;
 }
 
@@ -49,16 +50,15 @@ bool Date::isValidDay(unsigned int year, unsigned int month, unsigned int day)
 		return day <= 31;
 }
 
-const std::string &Date::toStr() const 
+const std::string &Date::toStr() const
 {
 	return _str;
 }
 
 bool Date::operator<(const Date &rhs) const
 {
-	return (_year < rhs._year) || 
-           (_year == rhs._year && _month < rhs._month) || 
-           (_year == rhs._year && _month == rhs._month && _day < rhs._day);
+	return (_year < rhs._year) || (_year == rhs._year && _month < rhs._month) ||
+		   (_year == rhs._year && _month == rhs._month && _day < rhs._day);
 }
 
 bool Date::operator>(const Date &rhs) const
