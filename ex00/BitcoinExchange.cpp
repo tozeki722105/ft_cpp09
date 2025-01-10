@@ -22,7 +22,7 @@ BitcoinExchange::BitcoinExchange()
 		devideStr(buf, ",", dateStr, rateStr);
 		double rate = numeric<double>(rateStr);
 		if (rate < 0.0)
-			throw std::logic_error("not a positive number.");
+			throw std::logic_error("not a positive number. => " + rateStr);
 		Date date(dateStr);
 		if (!_map.insert(std::make_pair(date, rate)).second)  // keyに重複がある
 			throw std::logic_error("duplicate input. => " + dateStr);
@@ -67,8 +67,7 @@ std::map<Date, double>::iterator BitcoinExchange::findData(const Date &date)
 		throw std::logic_error("not found matching data. => " + date.toStr());
 
 	std::map<Date, double>::iterator it = _map.lower_bound(date);
-	return (date == it->first) ? it
-								  : --it;  // 同じ日付でなければ、dateStrよりひとつ前の日付を返す
+	return (date == it->first) ? it : --it;  // 同じ日付でなければ、dateStrよりひとつ前の日付を返す
 }
 
 void BitcoinExchange::exec(const std::string &inputFile)
