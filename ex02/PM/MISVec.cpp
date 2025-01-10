@@ -27,10 +27,10 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 
 	for (Vector::iterator it = mainChain.begin(); it != mainChain.end() - oddFlag; it += 2) {
 		Vector::iterator next = it + 1;
-		((*it < *next) ? it : next)->setMainChainFlag(false);
+		((*it < *next) ? it : next)->setMainChain(false);
 	}
 	if (oddFlag)
-		mainChain.back().setMainChainFlag(false);
+		mainChain.back().setMainChain(false);
 
 	Vector::iterator boundIt =
 			std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
@@ -41,7 +41,7 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 
 	Vector::iterator subchainIt = subchain.begin();
 	for (Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		it->pushSubChainPtr(&(*subchainIt));
+		it->pushSubChain(&(*subchainIt));
 		subchainIt++;
 	}
 	if (oddFlag)
@@ -56,8 +56,8 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 	// utl::disp(subchain.begin(), subchain.end());
 
 	Vector::iterator it = mainChain.begin();
-	mainChain.insert(it, *(it->popSubChainPtr()));  // ここでitの挿している要素が更新される
-	it += 2;                                        // 次の要素＋挿入した一個分
+	mainChain.insert(it, *(it->popSubChain()));  // ここでitの挿している要素が更新される
+	it += 2;                                     // 次の要素＋挿入した一個分
 
 	size_t n = 1;
 	while (it != mainChain.end()) {
@@ -66,8 +66,8 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 		Vector::iterator last = groupEnd - 1;
 		distance_t insertCount = groupEnd - it;
 		for (distance_t count = 0; count < insertCount;) {
-			if (last->getMainChainFlag()) {
-				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));
+			if (last->isMainChain()) {
+				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChain()));
 				count++;
 			} else
 				last--;  // insertするとlastを指しているNodeも更新されるため、insert時は更新しない
@@ -80,7 +80,7 @@ void PmergeMe::mergeInsertionSort(Vector &mainChain)
 	subchain.clear();
 
 	for (Vector::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		it->setMainChainFlag(true);
+		it->setMainChain(true);
 	}
 	// std::cout << "\n";
 }

@@ -16,9 +16,9 @@ public:
 
 	// getter
 	int getVal() const;
-	bool getMainChainFlag() const;
+	bool isMainChain() const;
 	// setter
-	void setMainChainFlag(bool val);
+	void setMainChain(bool val);
 
 	size_t resetCompCount();
 	bool operator<(const Node &rhs) const;

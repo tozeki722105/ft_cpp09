@@ -42,10 +42,10 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 	List::iterator swapEnd = (oddFlag) ? utl::prev(mainChain.end()) : mainChain.end();
 	for (List::iterator it = mainChain.begin(); it != swapEnd; std::advance(it, 2)) {
 		List::iterator next = utl::next(it);
-		((*it < *next) ? it : next)->setMainChainFlag(false);
+		((*it < *next) ? it : next)->setMainChain(false);
 	}
 	if (oddFlag)
-		mainChain.back().setMainChainFlag(false);
+		mainChain.back().setMainChain(false);
 
 	// MainChainFlagがtrueのNodeを前に移動する
 	List::iterator boundIt = std::stable_partition(mainChain.begin(), mainChain.end(), isMainChain);
@@ -57,7 +57,7 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 	// mainChainに対応するsubChainのペアのアドレスをpush、奇数の余りはremainで管理する
 	List::iterator subchainIt = subchain.begin();
 	for (List::iterator it = mainChain.begin(); it != mainChain.end(); it++) {
-		it->pushSubChainPtr(&(*subchainIt));
+		it->pushSubChain(&(*subchainIt));
 		subchainIt++;
 	}
 	if (oddFlag)
@@ -67,7 +67,7 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 
 	// itは挿入する前の最初の要素を指す
 	List::iterator it = mainChain.begin();
-	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChainPtr()));
+	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChain()));
 	it++;
 
 	size_t n = 1;  // groupIndex
@@ -78,8 +78,8 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 		List::iterator last = utl::prev(groupEnd);
 		distance_t insertCount = std::distance(it, groupEnd);
 		for (distance_t count = 0; count < insertCount;) {
-			if (last->getMainChainFlag()) {
-				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChainPtr()));
+			if (last->isMainChain()) {
+				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChain()));
 				count++;
 			}
 			last--;  // insertしてもlastを指しているNode変わらないため、loopの度にlastを更新する
@@ -93,5 +93,5 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 
 	// mainChainの全てのmainChainFlagをtrueに更新
 	for (List::iterator it = mainChain.begin(); it != mainChain.end(); it++)
-		it->setMainChainFlag(true);
+		it->setMainChain(true);
 }

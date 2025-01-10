@@ -27,12 +27,12 @@ int Node::getVal() const
 	return _val;
 }
 
-bool Node::getMainChainFlag() const
+bool Node::isMainChain() const
 {
 	return _mainChainFlag;
 }
 
-void Node::setMainChainFlag(bool val)
+void Node::setMainChain(bool val)
 {
 	_mainChainFlag = val;
 }
@@ -55,14 +55,14 @@ bool Node::operator<(const Node &rhs) const
 
 bool isMainChain(Node &node)
 {
-	return node.getMainChainFlag();
+	return node.isMainChain();
 }
 
 std::ostream &operator<<(std::ostream &os, const Node &rhs)
 {
 	// os << "v:" << std::setw(2) << rhs._val << " ";
-	// if (!rhs._subChainPtrs.empty())
-	// 	os << "s:" << std::setw(2) << rhs._subChainPtrs.back()->_val;
+	// if (!rhs._subChains.empty())
+	// 	os << "s:" << std::setw(2) << rhs._subChains.back()->_val;
 	// os << " ";
 	os << rhs.getVal();
 	return os;

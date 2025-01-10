@@ -14,24 +14,24 @@ const LNode &LNode::operator=(const LNode &other)
 	if (this == &other)
 		return *this;
 	Node::operator=(other);
-	_subChainPtrs = other._subChainPtrs;
+	_subChains = other._subChains;
 	return *this;
 }
 
-LNode *LNode::popSubChainPtr()
+LNode *LNode::popSubChain()
 {
-	if (_subChainPtrs.empty())
-		throw std::logic_error("subChainPtrs is empty");
+	if (_subChains.empty())
+		throw std::logic_error("subChains is empty");
 
-	LNode *res = _subChainPtrs.back();
-	_subChainPtrs.pop_back();
+	LNode *res = _subChains.back();
+	_subChains.pop_back();
 	return res;
 }
 
-void LNode::pushSubChainPtr(LNode *subChainPtr)
+void LNode::pushSubChain(LNode *subChainPtr)
 {
 	if (!subChainPtr)
 		throw std::logic_error("subChainPtr is NULL");
 
-	_subChainPtrs.push_back(subChainPtr);
+	_subChains.push_back(subChainPtr);
 }

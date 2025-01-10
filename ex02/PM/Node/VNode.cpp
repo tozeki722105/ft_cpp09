@@ -14,24 +14,24 @@ const VNode &VNode::operator=(const VNode &other)
 	if (this == &other)
 		return *this;
 	Node::operator=(other);
-	_subChainPtrs = other._subChainPtrs;
+	_subChains = other._subChains;
 	return *this;
 }
 
-VNode *VNode::popSubChainPtr()
+VNode *VNode::popSubChain()
 {
-	if (_subChainPtrs.empty())
-		throw std::logic_error("subChainPtrs is empty");
+	if (_subChains.empty())
+		throw std::logic_error("subChains is empty");
 
-	VNode *res = _subChainPtrs.back();
-	_subChainPtrs.pop_back();
+	VNode *res = _subChains.back();
+	_subChains.pop_back();
 	return res;
 }
 
-void VNode::pushSubChainPtr(VNode *subChainPtr)
+void VNode::pushSubChain(VNode *subChainPtr)
 {
 	if (!subChainPtr)
 		throw std::logic_error("subChainPtr is NULL");
 
-	_subChainPtrs.push_back(subChainPtr);
+	_subChains.push_back(subChainPtr);
 }

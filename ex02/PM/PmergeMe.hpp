@@ -44,10 +44,7 @@ private:
 	void test();
 	size_t groupSize(size_t groupIndex);
 
-	inline void getTime(timeval &val)
-	{
-		gettimeofday(&val, NULL);
-	}
+	inline void getTime(timeval &val) { gettimeofday(&val, NULL); }
 	inline PMTime_t diffTime(timeval start, timeval end)
 	{
 		return (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);

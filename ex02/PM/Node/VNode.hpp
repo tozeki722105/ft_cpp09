@@ -14,13 +14,13 @@ public:
 	const VNode &operator=(const VNode &other);
 
 	// getter
-	VNode *popSubChainPtr();
+	VNode *popSubChain();
 	// setter
-	void pushSubChainPtr(VNode *subChainNode);
+	void pushSubChain(VNode *subChainNode);
 
 private:
 	VNode();
-	std::vector<VNode *> _subChainPtrs;  // ここの型だけ違う
+	std::vector<VNode *> _subChains;  // ここの型だけ違う
 };
 
 #endif
