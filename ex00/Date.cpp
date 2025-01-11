@@ -50,7 +50,7 @@ bool Date::isValidDay(unsigned int year, unsigned int month, unsigned int day)
 		return day <= 31;
 }
 
-const std::string &Date::toStr() const
+const std::string Date::toStr() const
 {
 	return _str;
 }
