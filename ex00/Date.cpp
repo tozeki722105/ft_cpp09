@@ -1,8 +1,10 @@
 #include "Date.hpp"
 
+#include <iostream>
+
 Date::Date(std::string dateStr)
 {
-	if (dateStr.empty())
+	if (dateStr.empty() || dateStr.find(' ') != std::string::npos)
 		throw std::logic_error("bad input => " + dateStr);
 
 	unsigned int y, m, d;

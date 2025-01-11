@@ -20,20 +20,20 @@ private:
 	std::map<Date, double> _map;
 
 	void devideStr(const std::string &str, const std::string &delim, std::string &devideA,
-			std::string &devideB);
+			std::string &devideB) const;
 	std::map<Date, double>::iterator findData(const Date &date);
 
 	template <typename T>
-	T numeric(const std::string &valStr);
+	T numeric(const std::string &valStr) const;
 };
 
 /// @brief 文字列を数値に変換する
 /// @tparam T 数値型
 /// @return 正常に変換できれば、数値を返す
 template <typename T>
-T BitcoinExchange::numeric(const std::string &valStr)
+T BitcoinExchange::numeric(const std::string &valStr) const
 {
-	if (valStr.empty())
+	if (valStr.empty() || valStr.find(' ') != std::string::npos)
 		throw std::logic_error("bad input => " + valStr);
 
 	std::stringstream ss(valStr);

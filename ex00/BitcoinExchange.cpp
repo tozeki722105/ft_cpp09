@@ -15,7 +15,7 @@ BitcoinExchange::BitcoinExchange()
 	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date,exchange_rate")
-		throw std::logic_error("bad input => " + buf);
+		throw std::logic_error("bad header => " + buf);
 
 	while (std::getline(ifs, buf)) {
 		std::string dateStr, rateStr;
@@ -51,11 +51,11 @@ const BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 /// @brief delimを境に文字を抜き出す
 void BitcoinExchange::devideStr(const std::string &str, const std::string &delim,
-		std::string &devideA, std::string &devideB)
+		std::string &devideA, std::string &devideB) const
 {
 	std::string::size_type delimPos = str.find(delim);
 	if (delimPos == std::string::npos)
-		throw std::logic_error("bad input => " + str);
+		throw std::logic_error("bad format => " + str);
 
 	devideA = str.substr(0, delimPos);
 	devideB = str.substr(delimPos + delim.length());
@@ -80,7 +80,7 @@ void BitcoinExchange::exec(const std::string &inputFile)
 	// 先頭一行を取得、validate
 	std::getline(ifs, buf);
 	if (buf != "date | value")
-		throw std::logic_error("bad input => " + buf);
+		throw std::logic_error("bad header => " + buf);
 
 	while (std::getline(ifs, buf)) {
 		try {
@@ -93,7 +93,8 @@ void BitcoinExchange::exec(const std::string &inputFile)
 				throw std::logic_error("too large a number.");
 			Date date(dateStr);
 			std::map<Date, double>::iterator it = findData(date);
-			std::cout << dateStr << " => " << amountStr << " = " << amount * it->second << "\n";
+			std::cout << dateStr << " => " << amountStr << " = " << std::fixed
+					  << std::setprecision(2) << amount * it->second << "\n";
 		} catch (const std::exception &e) {
 			std::cerr << "Error: " << e.what() << '\n';
 		}
