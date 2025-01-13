@@ -18,21 +18,18 @@ public:
 	// getter
 	int getVal() const;
 	bool isMainChain() const;
+	Node *popSubChain();
 	// setter
 	void setMainChain(bool val);
+	void pushSubChain(Node *subChainNode);
 
 	size_t resetCompCount();
 	bool operator<(const Node &rhs) const;
 
-	// getter
-	Node *popSubChain();
-	// setter
-	void pushSubChain(Node *subChainNode);
-
 private:
 	int _val;
 	bool _mainChainFlag;
-	std::list<Node *> _subChains;  // ここの型だけ違う
+	std::list<Node *> _subChains;
 
 	static size_t _cmpCount;  // 比較をカウントする静的メンバ変数
 };

@@ -2,13 +2,12 @@ CXX		:=	c++
 CXXFLAGS	:=	-Wall -Wextra -Werror -Wconversion -std=c++98
 RM		:=	rm -f
 
-PMERGE_PATH := ./PM/
-NODE_PATH := $(PMERGE_PATH)
+PMERGE_PATH := ./
+NODE_PATH := ./
 
 TARGET	:=	PmergeMe
 SRCS    :=	$(NODE_PATH)Node.cpp \
-			$(PMERGE_PATH)MISList.cpp \
-			$(PMERGE_PATH)MISUtils.cpp \
+			$(PMERGE_PATH)mergeInsertionSort.cpp \
 			$(PMERGE_PATH)PmergeMe.cpp \
 			main.cpp 
 OBJS    :=	$(patsubst %.cpp, %.o, $(SRCS))

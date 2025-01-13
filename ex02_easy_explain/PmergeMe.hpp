@@ -27,13 +27,10 @@ private:
 	std::vector<int> _arg;
 	List _list;
 
-	// MISList.cpp
+	// mergeInsertionSort.cpp
+	size_t groupSize(size_t groupIndex);
 	void binaryInsert(List &vec, const List::iterator &begin, const List::iterator &end, Node &val);
 	void mergeInsertionSort(List &mainChain);
-
-	// MIUtils.cpp
-	void test();
-	size_t groupSize(size_t groupIndex);
 
 	inline void getTime(timeval &val) { gettimeofday(&val, NULL); }
 	inline PMTime_t diffTime(timeval start, timeval end)

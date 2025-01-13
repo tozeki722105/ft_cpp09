@@ -19,6 +19,7 @@ const Node &Node::operator=(const Node &other)
 		return *this;
 	_val = other._val;
 	_mainChainFlag = other._mainChainFlag;
+	_subChains = other._subChains;
 	return *this;
 }
 
