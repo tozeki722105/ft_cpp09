@@ -55,7 +55,8 @@ void RPN::calcPush(long long left, char ope, long long right)
 	}
 
 	// intオーバーフローしたら、エラー
-	if (res < std::numeric_limits<int>::min() || std::numeric_limits<int>::max() < res)
+	if (res < static_cast<long long>(std::numeric_limits<int>::min()) ||
+			static_cast<long long>(std::numeric_limits<int>::max()) < res)
 		throw std::logic_error("Error");
 	push(static_cast<int>(res));
 }
