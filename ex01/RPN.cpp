@@ -1,7 +1,6 @@
 #include "RPN.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <limits>
 
 RPN::RPN() {}
@@ -66,22 +65,25 @@ void RPN::exec(char *RPNStr)
 	if (*RPNStr == '\0')
 		throw std::logic_error("Error");
 
-	std::stringstream ss(RPNStr);
-	char c;
-	while (ss >> c) {
-		if (std::isdigit(c))
-			push(c - '0');
-		else if (isOperator(c)) {
+	size_t i = 0;
+	size_t next = 1;
+	while ((std::isdigit(RPNStr[i]) || isOperator(RPNStr[i])) &&
+			(RPNStr[next] == ' ' || !RPNStr[next])) {
+		if (isOperator(RPNStr[i])) {
 			if (_stack.size() < 2)
 				throw std::logic_error("Error");
 			int right = pop();
 			int left = pop();
-			calcPush(left, c, right);
+			calcPush(left, RPNStr[i], right);
 		} else
-			throw std::logic_error("Error");
+			push(RPNStr[i] - '0');
+		if (!RPNStr[next])
+			break;
+		i += 2;
+		next += 2;
 	}
 
-	if (!ss.eof())  // char型への変換が失敗してwhileを抜けたとき
+	if (RPNStr[next])
 		throw std::logic_error("Error");
 	if (_stack.size() != 1)
 		throw std::logic_error("Error");
