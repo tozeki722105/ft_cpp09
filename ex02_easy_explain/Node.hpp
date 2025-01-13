@@ -4,8 +4,6 @@
 #include <iostream>
 #include <list>
 
-#include "stddef.h"
-
 class Node
 {
 public:
