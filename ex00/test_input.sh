@@ -19,6 +19,6 @@ testfile="input.txt"
 backup="input_cp.txt"
 cp ${testfile} ${backup}
 echo >> ${testfile}
-echo "2011-7-01 | 2" >> ${testfile}
+echo "2011-7-01 | 1" >> ${testfile}
 ./btc ${testfile}
 mv ${backup} ${testfile}
