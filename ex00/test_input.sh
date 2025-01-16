@@ -20,5 +20,13 @@ backup="input_cp.txt"
 cp ${testfile} ${backup}
 echo >> ${testfile}
 echo "2011-7-01 | 1" >> ${testfile}
+echo "2011-7-01 | 959.8641" >> ${testfile}
 ./btc ${testfile}
 mv ${backup} ${testfile}
+
+
+echo "case 5"
+./btc
+
+echo "case 6"
+./btc input.txt aaa.txt
