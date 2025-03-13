@@ -74,7 +74,7 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 	while (it != mainChain.end()) {
 		List::iterator groupEnd = utl::next(it, groupSize(n++), mainChain.end());
 
-		// groupEndの前をlastとし、insertCountを満たすまで後ろに戻る
+		// groupEndの直前をlastとし、insertCountを満たすまで後ろに戻る
 		List::iterator last = utl::prev(groupEnd);
 		distance_t insertCount = std::distance(it, groupEnd);
 		for (distance_t count = 0; count < insertCount;) {
@@ -82,7 +82,7 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 				binaryInsert(mainChain, mainChain.begin(), last, *(last->popSubChain()));
 				count++;
 			}
-			last--;  // insertしてもlastを指しているNode変わらないため、loopの度にlastを更新する
+			last--;  // insertしてもlastを指しているNodeは変わらないため、loopの度にlastを更新する
 		}
 		it = groupEnd;  // groupEndも変わらないため、そのまま渡す
 	}

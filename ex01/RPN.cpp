@@ -69,7 +69,7 @@ void RPN::exec(char *RPNStr)
 	size_t i = 0;
 	size_t next = 1;
 	while ((std::isdigit(RPNStr[i]) || isOperator(RPNStr[i])) &&
-			(RPNStr[next] == ' ' || !RPNStr[next])) {
+			(RPNStr[next] == ' ' || RPNStr[next] == '\0')) {
 		if (isOperator(RPNStr[i])) {
 			if (_stack.size() < 2)
 				throw std::logic_error("Error");
@@ -84,7 +84,7 @@ void RPN::exec(char *RPNStr)
 		next += 2;
 	}
 
-	if (RPNStr[next])
+	if (!((std::isdigit(RPNStr[i]) || isOperator(RPNStr[i])) && RPNStr[next] == '\0'))
 		throw std::logic_error("Error");
 	if (_stack.size() != 1)
 		throw std::logic_error("Error");
