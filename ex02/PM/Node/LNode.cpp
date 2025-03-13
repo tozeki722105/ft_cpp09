@@ -4,10 +4,7 @@ LNode::LNode(int val) : Node(val) {}
 
 LNode::~LNode() {}
 
-LNode::LNode(const LNode &other)
-{
-	*this = other;
-}
+LNode::LNode(const LNode &other) : Node(other), _subChains(other._subChains) {}
 
 const LNode &LNode::operator=(const LNode &other)
 {

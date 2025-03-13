@@ -67,7 +67,7 @@ void PmergeMe::mergeInsertionSort(List &mainChain)
 
 	// itは挿入する前の最初の要素を指す
 	List::iterator it = mainChain.begin();
-	mainChain.insert(mainChain.begin(), *(mainChain.begin()->popSubChain()));
+	mainChain.insert(mainChain.begin(), *(it->popSubChain()));
 	it++;
 
 	size_t n = 1;  // groupIndex

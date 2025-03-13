@@ -1,7 +1,5 @@
 #include "PM/PmergeMe.hpp"
 
-size_t Node::_cmpCount = 0;  // cmpCountの初期化
-
 int main(int argc, char** argv)
 {
 	try {

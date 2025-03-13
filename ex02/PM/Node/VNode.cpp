@@ -4,10 +4,7 @@ VNode::VNode(int val) : Node(val) {}
 
 VNode::~VNode() {}
 
-VNode::VNode(const VNode &other)
-{
-	*this = other;
-}
+VNode::VNode(const VNode &other) : Node(other), _subChains(other._subChains) {}
 
 const VNode &VNode::operator=(const VNode &other)
 {

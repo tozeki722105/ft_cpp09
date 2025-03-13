@@ -6,6 +6,8 @@
 
 #include "utils.hpp"
 
+size_t Node::_cmpCount = 0;  // cmpCountの初期化
+
 PmergeMe::PmergeMe(int argc, char **argv)
 {
 	if (argc <= 1)
@@ -47,7 +49,7 @@ const PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 
 void PmergeMe::exec()
 {
-	Node node(0);  // cmpCountのために実体化
+	Node node;  // cmpCountのために実体化
 
 	std::cout << "Before\t:   ";
 	utl::disp(_arg.begin(), _arg.end());
